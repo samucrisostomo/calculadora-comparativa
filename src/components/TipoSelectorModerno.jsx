@@ -5,23 +5,25 @@ import { Car, Home } from "lucide-react";
 const TipoSelectorModerno = ({ tipoBem, setTipoBem }) => {
   return (
     <div className="flex justify-center mb-6 sm:mb-8 animate-fade-in">
-      <Tabs value={tipoBem} onValueChange={setTipoBem} className="w-full max-w-md">
+      <Tabs
+        value={tipoBem}
+        onValueChange={setTipoBem}
+        className="w-full max-w-md"
+      >
         <TabsList className="grid w-full grid-cols-2 h-14">
-          <TabsTrigger 
-            value="carro" 
+          <TabsTrigger
+            value="carro"
             className="text-base sm:text-lg flex items-center gap-2 data-[state=active]:bg-blue-600 data-[state=active]:text-white"
           >
             <Car className="w-5 h-5" />
-            <span className="hidden sm:inline">Carro</span>
-            <span className="sm:hidden">🚗</span>
+            <span>Carro</span>
           </TabsTrigger>
-          <TabsTrigger 
+          <TabsTrigger
             value="imovel"
             className="text-base sm:text-lg flex items-center gap-2 data-[state=active]:bg-blue-600 data-[state=active]:text-white"
           >
             <Home className="w-5 h-5" />
-            <span className="hidden sm:inline">Imóvel</span>
-            <span className="sm:hidden">🏠</span>
+            <span>Imóvel</span>
           </TabsTrigger>
         </TabsList>
       </Tabs>

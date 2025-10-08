@@ -11,6 +11,7 @@ import {
   Cell,
 } from "recharts";
 import { formatarMoeda } from "../utils/formatters";
+import { TrendingUp } from "lucide-react";
 
 const GraficoComparativo = ({ consorcio, financiamento }) => {
   if (!consorcio || !financiamento) {
@@ -50,8 +51,9 @@ const GraficoComparativo = ({ consorcio, financiamento }) => {
 
   return (
     <div className="card" id="grafico">
-      <h2 className="text-xl sm:text-2xl font-bold text-center text-gray-800 mb-4 sm:mb-6">
-        📈 Comparação Visual
+      <h2 className="text-xl sm:text-2xl font-bold text-center text-gray-800 mb-4 sm:mb-6 flex items-center justify-center gap-2">
+        <TrendingUp className="w-6 h-6 sm:w-7 sm:h-7 text-blue-600" />
+        Comparação Visual
       </h2>
 
       <div className="space-y-6 sm:space-y-8">

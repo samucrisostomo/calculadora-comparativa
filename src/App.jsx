@@ -18,7 +18,13 @@ import {
   validarFinanciamento,
   temErros,
 } from "./utils/validations";
-import { Calculator, Loader2, AlertCircle, Lightbulb } from "lucide-react";
+import {
+  Calculator,
+  Loader2,
+  AlertCircle,
+  Lightbulb,
+  Check,
+} from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "./components/ui/card";
 
 function App() {
@@ -140,7 +146,6 @@ function App() {
             dados={dadosConsorcio}
             onChange={setDadosConsorcio}
             erros={errosConsorcio}
-            icone="🌱"
             cor="border-green-300"
           />
           <FormularioModerno
@@ -148,7 +153,6 @@ function App() {
             dados={dadosFinanciamento}
             onChange={setDadosFinanciamento}
             erros={errosFinanciamento}
-            icone="🏦"
             cor="border-blue-300"
           />
         </div>
@@ -245,7 +249,8 @@ function App() {
                     className="bg-white rounded-lg p-4 shadow-sm hover:shadow-md transition-all hover:scale-[1.02]"
                   >
                     <h4 className="font-bold text-green-700 mb-2 text-sm sm:text-base flex items-center gap-2">
-                      <span className="text-green-500">✓</span> {item.title}
+                      <Check className="w-4 h-4 text-green-500" />
+                      {item.title}
                     </h4>
                     <p className="text-gray-600 text-xs sm:text-sm leading-relaxed">
                       {item.desc}

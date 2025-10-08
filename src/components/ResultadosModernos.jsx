@@ -3,14 +3,18 @@ import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { Separator } from "./ui/separator";
 import { formatarMoeda, formatarPercentual } from "../utils/formatters";
-import { 
-  DollarSign, 
-  TrendingUp, 
-  Calendar, 
-  PiggyBank, 
+import {
+  DollarSign,
+  TrendingUp,
+  Calendar,
+  PiggyBank,
   Zap,
   Sparkles,
-  ArrowDown
+  ArrowDown,
+  Sprout,
+  Building2,
+  BarChart3,
+  Check,
 } from "lucide-react";
 
 const ResultadosModernos = ({ consorcio, financiamento, comparacao }) => {
@@ -19,14 +23,20 @@ const ResultadosModernos = ({ consorcio, financiamento, comparacao }) => {
   }
 
   const ItemResultado = ({ label, valor, icon: Icon, destaque = false }) => (
-    <div className={`flex justify-between items-center p-3 rounded-lg transition-all hover:scale-[1.02] ${
-      destaque ? "bg-gradient-to-r from-blue-50 to-green-50" : "bg-gray-50"
-    }`}>
+    <div
+      className={`flex justify-between items-center p-3 rounded-lg transition-all hover:scale-[1.02] ${
+        destaque ? "bg-gradient-to-r from-blue-50 to-green-50" : "bg-gray-50"
+      }`}
+    >
       <span className="flex items-center gap-2 text-sm sm:text-base font-medium text-gray-700">
         <Icon className="w-4 h-4 text-gray-500" />
         {label}
       </span>
-      <span className={`text-sm sm:text-lg font-bold ${destaque ? "text-blue-600" : "text-gray-900"}`}>
+      <span
+        className={`text-sm sm:text-lg font-bold ${
+          destaque ? "text-blue-600" : "text-gray-900"
+        }`}
+      >
         {valor}
       </span>
     </div>
@@ -36,9 +46,9 @@ const ResultadosModernos = ({ consorcio, financiamento, comparacao }) => {
     <div id="resultados" className="space-y-6 sm:space-y-8 animate-fade-in">
       <div className="text-center space-y-2">
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 flex items-center justify-center gap-3">
-          <Sparkles className="w-6 h-6 sm:w-8 sm:h-8 text-yellow-500" />
+          <BarChart3 className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600" />
           Resultados da Comparação
-          <Sparkles className="w-6 h-6 sm:w-8 sm:h-8 text-yellow-500" />
+          <BarChart3 className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600" />
         </h2>
         <p className="text-gray-600">Análise detalhada das duas modalidades</p>
       </div>
@@ -81,7 +91,8 @@ const ResultadosModernos = ({ consorcio, financiamento, comparacao }) => {
             <div className="mt-4 bg-gradient-to-r from-green-100 to-green-50 rounded-xl p-4 text-center">
               <p className="text-sm sm:text-base text-green-800 font-semibold flex items-center justify-center gap-2">
                 <ArrowDown className="w-5 h-5" />
-                Parcela mensal {formatarMoeda(Math.abs(comparacao.diferencaParcela))} menor
+                Parcela mensal{" "}
+                {formatarMoeda(Math.abs(comparacao.diferencaParcela))} menor
               </p>
             </div>
           </CardContent>
@@ -95,7 +106,8 @@ const ResultadosModernos = ({ consorcio, financiamento, comparacao }) => {
           <CardHeader className="bg-gradient-to-br from-green-50 to-white">
             <div className="flex items-center justify-between">
               <CardTitle className="text-xl sm:text-2xl text-green-700 flex items-center gap-2">
-                🌱 Consórcio
+                <Sprout className="w-6 h-6" />
+                Consórcio
               </CardTitle>
               <Badge variant="secondary" className="text-sm">
                 Economia
@@ -103,35 +115,35 @@ const ResultadosModernos = ({ consorcio, financiamento, comparacao }) => {
             </div>
           </CardHeader>
           <CardContent className="space-y-3 pt-6">
-            <ItemResultado 
-              label="Valor do Bem" 
-              valor={formatarMoeda(consorcio.valorBem)} 
+            <ItemResultado
+              label="Valor do Bem"
+              valor={formatarMoeda(consorcio.valorBem)}
               icon={DollarSign}
             />
-            <ItemResultado 
-              label="Lance" 
-              valor={formatarMoeda(consorcio.lance)} 
+            <ItemResultado
+              label="Lance"
+              valor={formatarMoeda(consorcio.lance)}
               icon={TrendingUp}
             />
-            <ItemResultado 
-              label="Parcela Mensal" 
-              valor={formatarMoeda(consorcio.parcelaMensal)} 
+            <ItemResultado
+              label="Parcela Mensal"
+              valor={formatarMoeda(consorcio.parcelaMensal)}
               icon={Calendar}
               destaque
             />
-            <ItemResultado 
-              label="Prazo" 
-              valor={`${consorcio.prazoMeses} meses`} 
+            <ItemResultado
+              label="Prazo"
+              valor={`${consorcio.prazoMeses} meses`}
               icon={Calendar}
             />
-            <ItemResultado 
-              label="Taxa Admin." 
-              valor={formatarMoeda(consorcio.taxaAdministrativa)} 
+            <ItemResultado
+              label="Taxa Admin."
+              valor={formatarMoeda(consorcio.taxaAdministrativa)}
               icon={DollarSign}
             />
-            <ItemResultado 
-              label="Comissão" 
-              valor={formatarMoeda(consorcio.comissao)} 
+            <ItemResultado
+              label="Comissão"
+              valor={formatarMoeda(consorcio.comissao)}
               icon={DollarSign}
             />
 
@@ -139,7 +151,9 @@ const ResultadosModernos = ({ consorcio, financiamento, comparacao }) => {
 
             <div className="bg-green-100 border-2 border-green-400 rounded-xl p-4">
               <div className="flex items-center justify-between">
-                <span className="text-base sm:text-lg font-bold text-green-900">Custo Total</span>
+                <span className="text-base sm:text-lg font-bold text-green-900">
+                  Custo Total
+                </span>
                 <span className="text-xl sm:text-2xl font-bold text-green-700">
                   {formatarMoeda(consorcio.custoTotal)}
                 </span>
@@ -149,11 +163,15 @@ const ResultadosModernos = ({ consorcio, financiamento, comparacao }) => {
         </Card>
 
         {/* Card Financiamento */}
-        <Card className="border-2 border-blue-300 hover:shadow-2xl transition-all animate-slide-in" style={{ animationDelay: "0.1s" }}>
+        <Card
+          className="border-2 border-blue-300 hover:shadow-2xl transition-all animate-slide-in"
+          style={{ animationDelay: "0.1s" }}
+        >
           <CardHeader className="bg-gradient-to-br from-blue-50 to-white">
             <div className="flex items-center justify-between">
               <CardTitle className="text-xl sm:text-2xl text-blue-700 flex items-center gap-2">
-                🏦 Financiamento
+                <Building2 className="w-6 h-6" />
+                Financiamento
               </CardTitle>
               <Badge variant="default" className="text-sm">
                 Tradicional
@@ -161,36 +179,36 @@ const ResultadosModernos = ({ consorcio, financiamento, comparacao }) => {
             </div>
           </CardHeader>
           <CardContent className="space-y-3 pt-6">
-            <ItemResultado 
-              label="Valor do Bem" 
-              valor={formatarMoeda(financiamento.valorBem)} 
+            <ItemResultado
+              label="Valor do Bem"
+              valor={formatarMoeda(financiamento.valorBem)}
               icon={DollarSign}
             />
-            <ItemResultado 
-              label="Entrada" 
-              valor={formatarMoeda(financiamento.entrada)} 
+            <ItemResultado
+              label="Entrada"
+              valor={formatarMoeda(financiamento.entrada)}
               icon={DollarSign}
             />
-            <ItemResultado 
-              label="Parcela Mensal" 
-              valor={formatarMoeda(financiamento.parcelaMensal)} 
+            <ItemResultado
+              label="Parcela Mensal"
+              valor={formatarMoeda(financiamento.parcelaMensal)}
               icon={Calendar}
               destaque
             />
-            <ItemResultado 
-              label="Prazo" 
-              valor={`${financiamento.prazoMeses} meses`} 
+            <ItemResultado
+              label="Prazo"
+              valor={`${financiamento.prazoMeses} meses`}
               icon={Calendar}
             />
-            <ItemResultado 
-              label="Taxa Anual" 
-              valor={formatarPercentual(financiamento.taxaAnual)} 
+            <ItemResultado
+              label="Taxa Anual"
+              valor={formatarPercentual(financiamento.taxaAnual)}
               icon={TrendingUp}
             />
             <div className="bg-red-50 border border-red-200 rounded-lg p-3">
-              <ItemResultado 
-                label="Total de Juros" 
-                valor={formatarMoeda(financiamento.totalJuros)} 
+              <ItemResultado
+                label="Total de Juros"
+                valor={formatarMoeda(financiamento.totalJuros)}
                 icon={TrendingUp}
               />
             </div>
@@ -199,7 +217,9 @@ const ResultadosModernos = ({ consorcio, financiamento, comparacao }) => {
 
             <div className="bg-blue-100 border-2 border-blue-400 rounded-xl p-4">
               <div className="flex items-center justify-between">
-                <span className="text-base sm:text-lg font-bold text-blue-900">Custo Total</span>
+                <span className="text-base sm:text-lg font-bold text-blue-900">
+                  Custo Total
+                </span>
                 <span className="text-xl sm:text-2xl font-bold text-blue-700">
                   {formatarMoeda(financiamento.custoTotal)}
                 </span>
