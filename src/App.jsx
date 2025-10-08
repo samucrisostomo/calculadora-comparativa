@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import Header from "./components/Header";
-import TipoSelector from "./components/TipoSelector";
-import FormularioConsorcio from "./components/FormularioConsorcio";
-import FormularioFinanciamento from "./components/FormularioFinanciamento";
-import Resultados from "./components/Resultados";
+import HeaderModerno from "./components/HeaderModerno";
+import TipoSelectorModerno from "./components/TipoSelectorModerno";
+import FormularioModerno from "./components/FormularioModerno";
+import ResultadosModernos from "./components/ResultadosModernos";
 import GraficoComparativo from "./components/GraficoComparativo";
 import BotaoGerarPDF from "./components/BotaoGerarPDF";
 import Footer from "./components/Footer";
-import Loading from "./components/Loading";
+import LoadingModerno from "./components/LoadingModerno";
+import { Button } from "./components/ui/button";
 import {
   calcularConsorcio,
   calcularFinanciamento,
@@ -18,6 +18,8 @@ import {
   validarFinanciamento,
   temErros,
 } from "./utils/validations";
+import { Calculator, Loader2, AlertCircle, Lightbulb } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "./components/ui/card";
 
 function App() {
   const [tipoBem, setTipoBem] = useState("carro");
@@ -124,54 +126,72 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Header />
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-50 to-blue-50/30">
+      <HeaderModerno />
 
-      <main className="flex-grow container mx-auto px-3 sm:px-4 py-4 sm:py-6 md:py-8">
+      <main className="flex-grow container mx-auto px-3 sm:px-4 py-6 sm:py-8 md:py-12">
         {/* Seletor de tipo de bem */}
-        <TipoSelector tipoBem={tipoBem} setTipoBem={setTipoBem} />
+        <TipoSelectorModerno tipoBem={tipoBem} setTipoBem={setTipoBem} />
 
         {/* Formulários lado a lado */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
-          <FormularioConsorcio
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-8 sm:mb-10">
+          <FormularioModerno
+            tipo="consorcio"
             dados={dadosConsorcio}
             onChange={setDadosConsorcio}
             erros={errosConsorcio}
+            icone="🌱"
+            cor="border-green-300"
           />
-          <FormularioFinanciamento
+          <FormularioModerno
+            tipo="financiamento"
             dados={dadosFinanciamento}
             onChange={setDadosFinanciamento}
             erros={errosFinanciamento}
+            icone="🏦"
+            cor="border-blue-300"
           />
         </div>
 
         {/* Botão Calcular */}
-        <div className="text-center mb-6 sm:mb-8">
-          <button
+        <div className="text-center mb-8 sm:mb-10">
+          <Button
             onClick={handleCalcular}
             disabled={
               calculando ||
               temErros(errosConsorcio) ||
               temErros(errosFinanciamento)
             }
-            className="btn-primary disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto text-base sm:text-lg py-4 sm:py-3"
+            size="lg"
+            className="w-full sm:w-auto text-base sm:text-lg px-8 sm:px-12 h-14 sm:h-16 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
           >
-            {calculando ? "Calculando..." : "🧮 Calcular Comparação"}
-          </button>
+            {calculando ? (
+              <>
+                <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                Calculando...
+              </>
+            ) : (
+              <>
+                <Calculator className="mr-2 h-5 w-5" />
+                Calcular Comparação
+              </>
+            )}
+          </Button>
           {(temErros(errosConsorcio) || temErros(errosFinanciamento)) && (
-            <p className="text-red-600 mt-3 font-semibold text-sm sm:text-base">
-              ⚠️ Por favor, corrija os erros nos formulários acima
+            <p className="text-red-600 mt-4 font-semibold text-sm sm:text-base flex items-center justify-center gap-2 animate-fade-in">
+              <AlertCircle className="w-5 h-5" />
+              Por favor, corrija os erros nos formulários acima
             </p>
           )}
         </div>
 
         {/* Loading */}
-        {calculando && <Loading />}
+        {calculando && <LoadingModerno />}
 
         {/* Resultados */}
         {mostrarResultados && !calculando && (
-          <div className="space-y-6 sm:space-y-8 animate-fadeIn">
-            <Resultados
+          <div className="space-y-8 sm:space-y-10">
+            <ResultadosModernos
               consorcio={resultadoConsorcio}
               financiamento={resultadoFinanciamento}
               comparacao={comparacao}
@@ -193,49 +213,48 @@ function App() {
 
         {/* Informações adicionais */}
         {mostrarResultados && (
-          <div className="card mt-6 sm:mt-8 bg-gradient-to-r from-gray-50 to-gray-100">
-            <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-3 sm:mb-4">
-              💡 Por que o Consórcio pode ser mais vantajoso?
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-              <div>
-                <h4 className="font-semibold text-green-700 mb-2 text-sm sm:text-base">
-                  ✓ Sem Juros Abusivos
-                </h4>
-                <p className="text-gray-600 text-xs sm:text-sm">
-                  No consórcio você não paga juros compostos. As taxas são
-                  transparentes e muito menores que os juros de financiamento.
-                </p>
+          <Card className="mt-8 bg-gradient-to-br from-amber-50 to-yellow-50 border-2 border-amber-200 animate-fade-in">
+            <CardHeader>
+              <CardTitle className="text-xl sm:text-2xl flex items-center gap-3 text-amber-900">
+                <Lightbulb className="w-7 h-7" />
+                Por que o Consórcio pode ser mais vantajoso?
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                {[
+                  {
+                    title: "Sem Juros Abusivos",
+                    desc: "No consórcio você não paga juros compostos. As taxas são transparentes e muito menores.",
+                  },
+                  {
+                    title: "Parcelas Fixas",
+                    desc: "As parcelas permanecem as mesmas do início ao fim, facilitando o planejamento financeiro.",
+                  },
+                  {
+                    title: "Economia Real",
+                    desc: "No final, você pode economizar milhares de reais em comparação ao financiamento tradicional.",
+                  },
+                  {
+                    title: "Flexibilidade",
+                    desc: "Possibilidade de dar lances para antecipar a contemplação e usar o crédito quando precisar.",
+                  },
+                ].map((item, index) => (
+                  <div
+                    key={index}
+                    className="bg-white rounded-lg p-4 shadow-sm hover:shadow-md transition-all hover:scale-[1.02]"
+                  >
+                    <h4 className="font-bold text-green-700 mb-2 text-sm sm:text-base flex items-center gap-2">
+                      <span className="text-green-500">✓</span> {item.title}
+                    </h4>
+                    <p className="text-gray-600 text-xs sm:text-sm leading-relaxed">
+                      {item.desc}
+                    </p>
+                  </div>
+                ))}
               </div>
-              <div>
-                <h4 className="font-semibold text-green-700 mb-2 text-sm sm:text-base">
-                  ✓ Parcelas Fixas
-                </h4>
-                <p className="text-gray-600 text-xs sm:text-sm">
-                  As parcelas permanecem as mesmas do início ao fim, facilitando
-                  o planejamento financeiro.
-                </p>
-              </div>
-              <div>
-                <h4 className="font-semibold text-green-700 mb-2 text-sm sm:text-base">
-                  ✓ Economia Real
-                </h4>
-                <p className="text-gray-600 text-xs sm:text-sm">
-                  No final, você pode economizar milhares de reais em comparação
-                  ao financiamento tradicional.
-                </p>
-              </div>
-              <div>
-                <h4 className="font-semibold text-green-700 mb-2 text-sm sm:text-base">
-                  ✓ Flexibilidade
-                </h4>
-                <p className="text-gray-600 text-xs sm:text-sm">
-                  Possibilidade de dar lances para antecipar a contemplação e
-                  usar o crédito quando precisar.
-                </p>
-              </div>
-            </div>
-          </div>
+            </CardContent>
+          </Card>
         )}
       </main>
 
