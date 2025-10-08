@@ -17,8 +17,18 @@ import {
   Sprout,
   Building2,
 } from "lucide-react";
+import { getConfig } from "../utils/constants";
 
-const FormularioModerno = ({ tipo, dados, onChange, erros = {}, cor }) => {
+const FormularioModerno = ({
+  tipo,
+  dados,
+  onChange,
+  erros = {},
+  cor,
+  tipoBem = "carro",
+}) => {
+  const config = getConfig(tipoBem);
+
   const handleChange = (campo, valor) => {
     onChange({ ...dados, [campo]: parseFloat(valor) || 0 });
   };
@@ -28,8 +38,8 @@ const FormularioModerno = ({ tipo, dados, onChange, erros = {}, cor }) => {
       ? [
           {
             id: "valorBem",
-            label: "Valor do Bem",
-            placeholder: "Ex: 50.000",
+            label: config.labels.valorBem,
+            placeholder: config.labels.placeholderValor,
             icon: DollarSign,
             info: "Valor total do bem que deseja adquirir",
             required: true,
@@ -39,15 +49,15 @@ const FormularioModerno = ({ tipo, dados, onChange, erros = {}, cor }) => {
             label: "Lance",
             placeholder: "Ex: 5.000 (opcional)",
             icon: TrendingUp,
-            info: "Valor de lance para antecipar contemplação (máx. 50%)",
+            info: `Valor de lance para antecipar contemplação (máx. ${config.lanceMaximoPercentual}%)`,
             required: false,
           },
           {
             id: "prazoMeses",
             label: "Prazo (meses)",
-            placeholder: "Ex: 60",
+            placeholder: `Ex: ${tipoBem === "carro" ? "60" : "240"}`,
             icon: Calendar,
-            info: "Período de pagamento entre 12 e 360 meses",
+            info: `Período de pagamento entre 12 e ${config.prazoMaximoMeses} meses`,
             required: true,
             inputMode: "numeric",
           },
@@ -55,8 +65,8 @@ const FormularioModerno = ({ tipo, dados, onChange, erros = {}, cor }) => {
       : [
           {
             id: "valorBem",
-            label: "Valor do Bem",
-            placeholder: "Ex: 50.000",
+            label: config.labels.valorBem,
+            placeholder: config.labels.placeholderValor,
             icon: DollarSign,
             info: "Valor total do bem que deseja adquirir",
             required: true,
@@ -64,26 +74,28 @@ const FormularioModerno = ({ tipo, dados, onChange, erros = {}, cor }) => {
           {
             id: "entrada",
             label: "Entrada",
-            placeholder: "Ex: 5.000",
+            placeholder: `Ex: ${tipoBem === "carro" ? "5.000" : "100.000"}`,
             icon: DollarSign,
-            info: "Valor da entrada inicial (máx. 80%)",
+            info: `Valor da entrada inicial (mín. ${config.entradaMinimaPercentual}%, máx. 80%)`,
             required: true,
           },
           {
             id: "prazoMeses",
             label: "Prazo (meses)",
-            placeholder: "Ex: 60",
+            placeholder: `Ex: ${tipoBem === "carro" ? "60" : "240"}`,
             icon: Calendar,
-            info: "Período de pagamento entre 12 e 360 meses",
+            info: `Período de pagamento entre 12 e ${config.prazoMaximoMeses} meses`,
             required: true,
             inputMode: "numeric",
           },
           {
             id: "taxaAnual",
             label: "Taxa de Juros Anual (%)",
-            placeholder: "Ex: 12",
+            placeholder: `Ex: ${config.taxaJurosAnualBase}`,
             icon: TrendingUp,
-            info: "Taxa de juros anual aplicada",
+            info: `Taxa de juros anual aplicada (base: ${
+              config.taxaJurosAnualBase
+            }% para ${tipoBem === "carro" ? "veículos" : "imóveis"})`,
             required: true,
             inputMode: "decimal",
             suffix: "%",
@@ -225,15 +237,33 @@ const FormularioModerno = ({ tipo, dados, onChange, erros = {}, cor }) => {
           >
             {tipo === "consorcio" ? (
               <>
-                <li>• Taxa administrativa: 1,5% ao ano</li>
-                <li>• Comissão: 2% do valor do bem</li>
+                <li>
+                  • Taxa administrativa: {config.taxaAdministrativaAnual}% ao
+                  ano
+                </li>
+                <li>
+                  • Comissão: {config.comissaoPercentual}% do valor do bem
+                </li>
                 <li>• Parcelas fixas durante todo período</li>
               </>
             ) : (
               <>
                 <li>• Sistema Price (parcelas fixas)</li>
-                <li>• Juros compostos mensais</li>
-                <li>• Parcelas iguais durante todo período</li>
+                <li>• Juros base: {config.taxaJurosAnualBase}% ao ano</li>
+                <li>• Seguro: {config.seguroAnualPercentual}% ao ano</li>
+                {tipoBem === "imovel" && (
+                  <>
+                    <li>
+                      • Taxa de avaliação: {config.taxaAvaliacaoPercentual}%
+                    </li>
+                    <li>• ITBI: {config.itbiPercentual}% (custo inicial)</li>
+                  </>
+                )}
+                {tipoBem === "carro" && (
+                  <li>
+                    • Licenciamento: R$ {config.taxaLicenciamentoAnual}/ano
+                  </li>
+                )}
               </>
             )}
           </ul>

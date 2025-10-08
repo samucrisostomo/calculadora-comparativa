@@ -1,16 +1,26 @@
+import { getConfig } from "./constants";
+
 /**
  * Calcula os valores do consórcio
  * @param {number} valorBem - Valor do bem
  * @param {number} lance - Valor do lance
  * @param {number} prazoMeses - Prazo em meses
+ * @param {string} tipoBem - Tipo do bem ('carro' ou 'imovel')
  * @returns {object} Resultado dos cálculos do consórcio
  */
-export const calcularConsorcio = (valorBem, lance, prazoMeses) => {
-  // Taxa administrativa: 1.5% ao ano sobre o valor do bem
-  const taxaAdministrativa = valorBem * 0.015;
+export const calcularConsorcio = (
+  valorBem,
+  lance,
+  prazoMeses,
+  tipoBem = "carro"
+) => {
+  const config = getConfig(tipoBem);
 
-  // Comissão: 2% sobre o valor total do consórcio
-  const comissao = valorBem * 0.02;
+  // Taxa administrativa: baseada no tipo de bem
+  const taxaAdministrativa = (valorBem * config.taxaAdministrativaAnual) / 100;
+
+  // Comissão: baseada no tipo de bem
+  const comissao = (valorBem * config.comissaoPercentual) / 100;
 
   // Valor a ser financiado (valor do bem menos o lance)
   const valorFinanciado = valorBem - lance;
@@ -27,13 +37,16 @@ export const calcularConsorcio = (valorBem, lance, prazoMeses) => {
     lance,
     prazoMeses,
     taxaAdministrativa,
+    taxaAdministrativaPercentual: config.taxaAdministrativaAnual,
     comissao,
+    comissaoPercentual: config.comissaoPercentual,
     valorFinanciado,
     parcelaMensal,
     parcelaInicial: parcelaMensal,
     parcelaFinal: parcelaMensal,
     custoTotal,
     totalPago: custoTotal,
+    tipoBem,
   };
 };
 
@@ -43,16 +56,51 @@ export const calcularConsorcio = (valorBem, lance, prazoMeses) => {
  * @param {number} entrada - Valor da entrada
  * @param {number} prazoMeses - Prazo em meses
  * @param {number} taxaAnual - Taxa de juros anual em percentual
+ * @param {string} tipoBem - Tipo do bem ('carro' ou 'imovel')
  * @returns {object} Resultado dos cálculos do financiamento
  */
 export const calcularFinanciamento = (
   valorBem,
   entrada,
   prazoMeses,
-  taxaAnual
+  taxaAnual,
+  tipoBem = "carro"
 ) => {
+  const config = getConfig(tipoBem);
+
   // Valor a ser financiado
-  const valorFinanciado = valorBem - entrada;
+  let valorFinanciado = valorBem - entrada;
+
+  // Custos adicionais iniciais
+  let custosAdicionaisIniciais = 0;
+
+  // Custos adicionais anuais
+  let custosAdicionaisAnuais = 0;
+
+  if (tipoBem === "imovel") {
+    // Taxa de avaliação (custo inicial)
+    const taxaAvaliacao = (valorBem * config.taxaAvaliacaoPercentual) / 100;
+    custosAdicionaisIniciais += taxaAvaliacao;
+
+    // ITBI (custo inicial)
+    const itbi = (valorBem * config.itbiPercentual) / 100;
+    custosAdicionaisIniciais += itbi;
+
+    // Seguro anual
+    const seguroAnual = (valorBem * config.seguroAnualPercentual) / 100;
+    const seguroTotal = (seguroAnual * prazoMeses) / 12;
+    custosAdicionaisAnuais += seguroTotal;
+  } else if (tipoBem === "carro") {
+    // Seguro anual
+    const seguroAnual = (valorBem * config.seguroAnualPercentual) / 100;
+    const seguroTotal = (seguroAnual * prazoMeses) / 12;
+    custosAdicionaisAnuais += seguroTotal;
+
+    // Taxa de licenciamento anual
+    const licenciamentoTotal =
+      (config.taxaLicenciamentoAnual * prazoMeses) / 12;
+    custosAdicionaisAnuais += licenciamentoTotal;
+  }
 
   // Converte taxa anual para mensal
   const taxaMensal = Math.pow(1 + taxaAnual / 100, 1 / 12) - 1;
@@ -63,11 +111,16 @@ export const calcularFinanciamento = (
   const parcelaMensal =
     (valorFinanciado * (taxaMensal * fatorPrice)) / (fatorPrice - 1);
 
-  // Custo total: (Parcela × Prazo) + Entrada
-  const custoTotal = parcelaMensal * prazoMeses + entrada;
+  // Custo total: (Parcela × Prazo) + Entrada + Custos Adicionais
+  const custoTotal =
+    parcelaMensal * prazoMeses +
+    entrada +
+    custosAdicionaisIniciais +
+    custosAdicionaisAnuais;
 
   // Total de juros pagos
-  const totalJuros = custoTotal - valorBem;
+  const totalJuros =
+    custoTotal - valorBem - custosAdicionaisIniciais - custosAdicionaisAnuais;
 
   return {
     valorBem,
@@ -80,6 +133,9 @@ export const calcularFinanciamento = (
     custoTotal,
     totalPago: custoTotal,
     totalJuros,
+    custosAdicionaisIniciais,
+    custosAdicionaisAnuais,
+    tipoBem,
   };
 };
 

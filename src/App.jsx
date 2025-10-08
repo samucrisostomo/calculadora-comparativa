@@ -18,6 +18,7 @@ import {
   validarFinanciamento,
   temErros,
 } from "./utils/validations";
+import { getConfig } from "./utils/constants";
 import {
   Calculator,
   Loader2,
@@ -44,9 +45,23 @@ function App() {
     valorBem: 50000,
     entrada: 5000,
     prazoMeses: 60,
-    taxaAnual: 12,
+    taxaAnual: 12, // Será ajustado baseado no tipo de bem
   });
   const [errosFinanciamento, setErrosFinanciamento] = useState({});
+
+  // Atualiza configurações quando o tipo de bem muda
+  useEffect(() => {
+    const config = getConfig(tipoBem);
+
+    // Atualiza a taxa de juros do financiamento baseada no tipo
+    setDadosFinanciamento((prev) => ({
+      ...prev,
+      taxaAnual: config.taxaJurosAnualBase,
+    }));
+
+    // Limpa resultados ao mudar o tipo
+    setMostrarResultados(false);
+  }, [tipoBem]);
 
   // Resultados
   const [resultadoConsorcio, setResultadoConsorcio] = useState(null);
@@ -61,15 +76,15 @@ function App() {
     }, 500);
 
     return () => clearTimeout(timer);
-  }, [dadosConsorcio, dadosFinanciamento]);
+  }, [dadosConsorcio, dadosFinanciamento, tipoBem]);
 
   const calcularResultados = () => {
     // Valida consórcio
-    const errosC = validarConsorcio(dadosConsorcio);
+    const errosC = validarConsorcio(dadosConsorcio, tipoBem);
     setErrosConsorcio(errosC);
 
     // Valida financiamento
-    const errosF = validarFinanciamento(dadosFinanciamento);
+    const errosF = validarFinanciamento(dadosFinanciamento, tipoBem);
     setErrosFinanciamento(errosF);
 
     // Se não houver erros, calcula
@@ -81,14 +96,16 @@ function App() {
         const resConsorcio = calcularConsorcio(
           dadosConsorcio.valorBem,
           dadosConsorcio.lance,
-          dadosConsorcio.prazoMeses
+          dadosConsorcio.prazoMeses,
+          tipoBem
         );
 
         const resFinanciamento = calcularFinanciamento(
           dadosFinanciamento.valorBem,
           dadosFinanciamento.entrada,
           dadosFinanciamento.prazoMeses,
-          dadosFinanciamento.taxaAnual
+          dadosFinanciamento.taxaAnual,
+          tipoBem
         );
 
         const comp = compararModalidades(resConsorcio, resFinanciamento);
@@ -175,6 +192,7 @@ function App() {
               onChange={setDadosConsorcio}
               erros={errosConsorcio}
               cor="border-green-300"
+              tipoBem={tipoBem}
             />
           </div>
           <div
@@ -187,6 +205,7 @@ function App() {
               onChange={setDadosFinanciamento}
               erros={errosFinanciamento}
               cor="border-blue-300"
+              tipoBem={tipoBem}
             />
           </div>
         </div>
