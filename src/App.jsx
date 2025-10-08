@@ -127,12 +127,12 @@ function App() {
     <div className="min-h-screen flex flex-col">
       <Header />
 
-      <main className="flex-grow container mx-auto px-4 py-8">
+      <main className="flex-grow container mx-auto px-3 sm:px-4 py-4 sm:py-6 md:py-8">
         {/* Seletor de tipo de bem */}
         <TipoSelector tipoBem={tipoBem} setTipoBem={setTipoBem} />
 
         {/* Formulários lado a lado */}
-        <div className="grid md:grid-cols-2 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
           <FormularioConsorcio
             dados={dadosConsorcio}
             onChange={setDadosConsorcio}
@@ -146,7 +146,7 @@ function App() {
         </div>
 
         {/* Botão Calcular */}
-        <div className="text-center mb-8">
+        <div className="text-center mb-6 sm:mb-8">
           <button
             onClick={handleCalcular}
             disabled={
@@ -154,12 +154,12 @@ function App() {
               temErros(errosConsorcio) ||
               temErros(errosFinanciamento)
             }
-            className="btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
+            className="btn-primary disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto text-base sm:text-lg py-4 sm:py-3"
           >
             {calculando ? "Calculando..." : "🧮 Calcular Comparação"}
           </button>
           {(temErros(errosConsorcio) || temErros(errosFinanciamento)) && (
-            <p className="text-red-600 mt-3 font-semibold">
+            <p className="text-red-600 mt-3 font-semibold text-sm sm:text-base">
               ⚠️ Por favor, corrija os erros nos formulários acima
             </p>
           )}
@@ -170,7 +170,7 @@ function App() {
 
         {/* Resultados */}
         {mostrarResultados && !calculando && (
-          <div className="space-y-8 animate-fadeIn">
+          <div className="space-y-6 sm:space-y-8 animate-fadeIn">
             <Resultados
               consorcio={resultadoConsorcio}
               financiamento={resultadoFinanciamento}
@@ -193,43 +193,43 @@ function App() {
 
         {/* Informações adicionais */}
         {mostrarResultados && (
-          <div className="card mt-8 bg-gradient-to-r from-gray-50 to-gray-100">
-            <h3 className="text-2xl font-bold text-gray-800 mb-4">
+          <div className="card mt-6 sm:mt-8 bg-gradient-to-r from-gray-50 to-gray-100">
+            <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-3 sm:mb-4">
               💡 Por que o Consórcio pode ser mais vantajoso?
             </h3>
-            <div className="grid md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
               <div>
-                <h4 className="font-semibold text-green-700 mb-2">
+                <h4 className="font-semibold text-green-700 mb-2 text-sm sm:text-base">
                   ✓ Sem Juros Abusivos
                 </h4>
-                <p className="text-gray-600 text-sm">
+                <p className="text-gray-600 text-xs sm:text-sm">
                   No consórcio você não paga juros compostos. As taxas são
                   transparentes e muito menores que os juros de financiamento.
                 </p>
               </div>
               <div>
-                <h4 className="font-semibold text-green-700 mb-2">
+                <h4 className="font-semibold text-green-700 mb-2 text-sm sm:text-base">
                   ✓ Parcelas Fixas
                 </h4>
-                <p className="text-gray-600 text-sm">
+                <p className="text-gray-600 text-xs sm:text-sm">
                   As parcelas permanecem as mesmas do início ao fim, facilitando
                   o planejamento financeiro.
                 </p>
               </div>
               <div>
-                <h4 className="font-semibold text-green-700 mb-2">
+                <h4 className="font-semibold text-green-700 mb-2 text-sm sm:text-base">
                   ✓ Economia Real
                 </h4>
-                <p className="text-gray-600 text-sm">
+                <p className="text-gray-600 text-xs sm:text-sm">
                   No final, você pode economizar milhares de reais em comparação
                   ao financiamento tradicional.
                 </p>
               </div>
               <div>
-                <h4 className="font-semibold text-green-700 mb-2">
+                <h4 className="font-semibold text-green-700 mb-2 text-sm sm:text-base">
                   ✓ Flexibilidade
                 </h4>
-                <p className="text-gray-600 text-sm">
+                <p className="text-gray-600 text-xs sm:text-sm">
                   Possibilidade de dar lances para antecipar a contemplação e
                   usar o crédito quando precisar.
                 </p>

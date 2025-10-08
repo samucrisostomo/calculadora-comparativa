@@ -217,11 +217,11 @@ const BotaoGerarPDF = ({ consorcio, financiamento, comparacao, tipoBem }) => {
   }
 
   return (
-    <div className="text-center mt-8">
+    <div className="text-center mt-6 sm:mt-8">
       <button
         onClick={gerarPDF}
         disabled={gerando}
-        className="btn-secondary inline-flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="btn-secondary inline-flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto text-base sm:text-lg py-4 sm:py-3"
       >
         {gerando ? (
           <>

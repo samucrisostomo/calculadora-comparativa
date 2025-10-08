@@ -50,17 +50,36 @@ const GraficoComparativo = ({ consorcio, financiamento }) => {
 
   return (
     <div className="card" id="grafico">
-      <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
+      <h2 className="text-xl sm:text-2xl font-bold text-center text-gray-800 mb-4 sm:mb-6">
         📈 Comparação Visual
       </h2>
 
-      <div className="space-y-8">
+      <div className="space-y-6 sm:space-y-8">
         {/* Gráfico de Custo Total */}
         <div>
-          <h3 className="text-xl font-semibold text-gray-700 mb-4 text-center">
+          <h3 className="text-base sm:text-lg md:text-xl font-semibold text-gray-700 mb-3 sm:mb-4 text-center">
             Custo Total
           </h3>
-          <ResponsiveContainer width="100%" height={300}>
+          <ResponsiveContainer width="100%" height={250} className="sm:hidden">
+            <BarChart data={data}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" style={{ fontSize: "12px" }} />
+              <YAxis
+                tickFormatter={(value) => `R$ ${(value / 1000).toFixed(0)}k`}
+                style={{ fontSize: "11px" }}
+              />
+              <Tooltip content={<CustomTooltip />} />
+              <Bar dataKey="Custo Total" radius={[8, 8, 0, 0]}>
+                <Cell fill="#22c55e" />
+                <Cell fill="#3b82f6" />
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+          <ResponsiveContainer
+            width="100%"
+            height={300}
+            className="hidden sm:block"
+          >
             <BarChart data={data}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="name" />
@@ -78,10 +97,29 @@ const GraficoComparativo = ({ consorcio, financiamento }) => {
 
         {/* Gráfico de Parcelas */}
         <div>
-          <h3 className="text-xl font-semibold text-gray-700 mb-4 text-center">
+          <h3 className="text-base sm:text-lg md:text-xl font-semibold text-gray-700 mb-3 sm:mb-4 text-center">
             Valor da Parcela Mensal
           </h3>
-          <ResponsiveContainer width="100%" height={300}>
+          <ResponsiveContainer width="100%" height={250} className="sm:hidden">
+            <BarChart data={data}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" style={{ fontSize: "12px" }} />
+              <YAxis
+                tickFormatter={(value) => `R$ ${(value / 1000).toFixed(1)}k`}
+                style={{ fontSize: "11px" }}
+              />
+              <Tooltip content={<CustomTooltip />} />
+              <Bar dataKey="Parcela Mensal" radius={[8, 8, 0, 0]}>
+                <Cell fill="#22c55e" />
+                <Cell fill="#3b82f6" />
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+          <ResponsiveContainer
+            width="100%"
+            height={300}
+            className="hidden sm:block"
+          >
             <BarChart data={data}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="name" />
@@ -99,10 +137,35 @@ const GraficoComparativo = ({ consorcio, financiamento }) => {
 
         {/* Comparação Valor do Bem vs Custo Total */}
         <div>
-          <h3 className="text-xl font-semibold text-gray-700 mb-4 text-center">
+          <h3 className="text-base sm:text-lg md:text-xl font-semibold text-gray-700 mb-3 sm:mb-4 text-center">
             Valor do Bem vs Custo Total
           </h3>
-          <ResponsiveContainer width="100%" height={300}>
+          <ResponsiveContainer width="100%" height={250} className="sm:hidden">
+            <BarChart data={data}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" style={{ fontSize: "12px" }} />
+              <YAxis
+                tickFormatter={(value) => `R$ ${(value / 1000).toFixed(0)}k`}
+                style={{ fontSize: "11px" }}
+              />
+              <Tooltip content={<CustomTooltip />} />
+              <Legend wrapperStyle={{ fontSize: "12px" }} />
+              <Bar
+                dataKey="Valor do Bem"
+                fill="#9ca3af"
+                radius={[8, 8, 0, 0]}
+              />
+              <Bar dataKey="Custo Total" radius={[8, 8, 0, 0]}>
+                <Cell fill="#22c55e" />
+                <Cell fill="#3b82f6" />
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+          <ResponsiveContainer
+            width="100%"
+            height={300}
+            className="hidden sm:block"
+          >
             <BarChart data={data}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="name" />
