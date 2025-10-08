@@ -94,7 +94,7 @@ const FormularioModerno = ({ tipo, dados, onChange, erros = {}, cor }) => {
 
   return (
     <Card
-      className={`border-2 ${cor} hover:scale-[1.01] transition-all duration-300 animate-fade-in`}
+      className={`border-2 ${cor} hover:scale-[1.01] transition-all duration-300 hover-lift bg-white/80 backdrop-blur-sm`}
     >
       <CardHeader>
         <div className="flex items-center justify-between">
@@ -170,7 +170,11 @@ const FormularioModerno = ({ tipo, dados, onChange, erros = {}, cor }) => {
                       : ""
                   } ${
                     erros[campo.id]
-                      ? "border-red-500 focus-visible:ring-red-500"
+                      ? "border-red-500 focus-visible:ring-red-500 animate-shake"
+                      : "focus:scale-[1.01] transition-all duration-200"
+                  } ${
+                    dados[campo.id] && !erros[campo.id]
+                      ? "border-green-400 bg-green-50/30"
                       : ""
                   }`}
                   inputMode={campo.inputMode || "numeric"}

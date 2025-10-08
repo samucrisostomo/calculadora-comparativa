@@ -132,7 +132,34 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-50 to-blue-50/30">
+    <div className="min-h-screen flex flex-col relative overflow-hidden">
+      {/* Background Gradiente Animado */}
+      <div className="fixed inset-0 -z-10 bg-gradient-to-br from-blue-50 via-purple-50 to-green-50 animate-gradient"></div>
+
+      {/* Formas Geométricas Flutuantes */}
+      <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+        {/* Círculo grande azul */}
+        <div className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-blue-400/30 to-purple-400/30 rounded-full blur-3xl animate-float-1"></div>
+
+        {/* Círculo médio verde */}
+        <div className="absolute top-1/4 -left-32 w-80 h-80 bg-gradient-to-br from-green-400/30 to-emerald-400/30 rounded-full blur-3xl animate-float-2"></div>
+
+        {/* Círculo pequeno roxo */}
+        <div className="absolute bottom-20 right-1/4 w-64 h-64 bg-gradient-to-br from-purple-400/30 to-pink-400/30 rounded-full blur-3xl animate-float-3"></div>
+
+        {/* Círculo pequeno amarelo */}
+        <div
+          className="absolute bottom-1/3 left-1/3 w-48 h-48 bg-gradient-to-br from-yellow-400/20 to-orange-400/20 rounded-full blur-2xl animate-float-1"
+          style={{ animationDelay: "2s" }}
+        ></div>
+
+        {/* Forma geométrica diagonal */}
+        <div
+          className="absolute top-1/2 right-1/3 w-72 h-72 bg-gradient-to-br from-cyan-400/20 to-blue-400/20 rounded-3xl blur-2xl rotate-45 animate-float-2"
+          style={{ animationDelay: "1s" }}
+        ></div>
+      </div>
+
       <HeaderModerno />
 
       <main className="flex-grow container mx-auto px-3 sm:px-4 py-6 sm:py-8 md:py-12">
@@ -141,24 +168,34 @@ function App() {
 
         {/* Formulários lado a lado */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-8 sm:mb-10">
-          <FormularioModerno
-            tipo="consorcio"
-            dados={dadosConsorcio}
-            onChange={setDadosConsorcio}
-            erros={errosConsorcio}
-            cor="border-green-300"
-          />
-          <FormularioModerno
-            tipo="financiamento"
-            dados={dadosFinanciamento}
-            onChange={setDadosFinanciamento}
-            erros={errosFinanciamento}
-            cor="border-blue-300"
-          />
+          <div className="animate-slide-in" style={{ animationDelay: "0.1s" }}>
+            <FormularioModerno
+              tipo="consorcio"
+              dados={dadosConsorcio}
+              onChange={setDadosConsorcio}
+              erros={errosConsorcio}
+              cor="border-green-300"
+            />
+          </div>
+          <div
+            className="animate-slide-in-right"
+            style={{ animationDelay: "0.2s" }}
+          >
+            <FormularioModerno
+              tipo="financiamento"
+              dados={dadosFinanciamento}
+              onChange={setDadosFinanciamento}
+              erros={errosFinanciamento}
+              cor="border-blue-300"
+            />
+          </div>
         </div>
 
         {/* Botão Calcular */}
-        <div className="text-center mb-8 sm:mb-10">
+        <div
+          className="text-center mb-8 sm:mb-10 animate-fade-in"
+          style={{ animationDelay: "0.4s" }}
+        >
           <Button
             onClick={handleCalcular}
             disabled={
@@ -167,7 +204,7 @@ function App() {
               temErros(errosFinanciamento)
             }
             size="lg"
-            className="w-full sm:w-auto text-base sm:text-lg px-8 sm:px-12 h-14 sm:h-16 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
+            className="w-full sm:w-auto text-base sm:text-lg px-8 sm:px-12 h-14 sm:h-16 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-110 hover-lift animate-glow"
           >
             {calculando ? (
               <>
@@ -217,10 +254,10 @@ function App() {
 
         {/* Informações adicionais */}
         {mostrarResultados && (
-          <Card className="mt-8 bg-gradient-to-br from-amber-50 to-yellow-50 border-2 border-amber-200 animate-fade-in">
+          <Card className="mt-8 bg-gradient-to-br from-amber-50 to-yellow-50 border-2 border-amber-200 animate-fade-in hover-lift bg-white/80 backdrop-blur-sm">
             <CardHeader>
               <CardTitle className="text-xl sm:text-2xl flex items-center gap-3 text-amber-900">
-                <Lightbulb className="w-7 h-7" />
+                <Lightbulb className="w-7 h-7 animate-pulse-soft text-yellow-600" />
                 Por que o Consórcio pode ser mais vantajoso?
               </CardTitle>
             </CardHeader>
@@ -246,7 +283,8 @@ function App() {
                 ].map((item, index) => (
                   <div
                     key={index}
-                    className="bg-white rounded-lg p-4 shadow-sm hover:shadow-md transition-all hover:scale-[1.02]"
+                    className="bg-white rounded-lg p-4 shadow-sm hover:shadow-md transition-all hover:scale-[1.02] hover-lift animate-fade-in"
+                    style={{ animationDelay: `${0.1 * index}s` }}
                   >
                     <h4 className="font-bold text-green-700 mb-2 text-sm sm:text-base flex items-center gap-2">
                       <Check className="w-4 h-4 text-green-500" />

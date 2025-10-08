@@ -55,7 +55,7 @@ const ResultadosModernos = ({ consorcio, financiamento, comparacao }) => {
 
       {/* Card de Economia Destacado */}
       {comparacao.consorcioMaisVantajoso && (
-        <Card className="border-4 border-green-500 bg-gradient-to-br from-green-50 via-white to-green-50 shadow-2xl animate-scale-in">
+        <Card className="border-4 border-green-500 bg-gradient-to-br from-green-50 via-white to-green-50 shadow-2xl animate-bounce-in hover-lift animate-glow">
           <CardHeader className="text-center pb-4">
             <div className="flex justify-center mb-4">
               <div className="bg-green-100 p-4 rounded-full">
@@ -102,8 +102,8 @@ const ResultadosModernos = ({ consorcio, financiamento, comparacao }) => {
       {/* Cards de Comparação */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
         {/* Card Consórcio */}
-        <Card className="border-2 border-green-300 hover:shadow-2xl transition-all animate-slide-in">
-          <CardHeader className="bg-gradient-to-br from-green-50 to-white">
+        <Card className="border-2 border-green-300 hover:shadow-2xl transition-all animate-slide-in hover-lift bg-white/90 backdrop-blur-sm">
+          <CardHeader className="bg-gradient-to-br from-green-50 to-white/50">
             <div className="flex items-center justify-between">
               <CardTitle className="text-xl sm:text-2xl text-green-700 flex items-center gap-2">
                 <Sprout className="w-6 h-6" />
@@ -164,10 +164,10 @@ const ResultadosModernos = ({ consorcio, financiamento, comparacao }) => {
 
         {/* Card Financiamento */}
         <Card
-          className="border-2 border-blue-300 hover:shadow-2xl transition-all animate-slide-in"
+          className="border-2 border-blue-300 hover:shadow-2xl transition-all animate-slide-in hover-lift bg-white/90 backdrop-blur-sm"
           style={{ animationDelay: "0.1s" }}
         >
-          <CardHeader className="bg-gradient-to-br from-blue-50 to-white">
+          <CardHeader className="bg-gradient-to-br from-blue-50 to-white/50">
             <div className="flex items-center justify-between">
               <CardTitle className="text-xl sm:text-2xl text-blue-700 flex items-center gap-2">
                 <Building2 className="w-6 h-6" />

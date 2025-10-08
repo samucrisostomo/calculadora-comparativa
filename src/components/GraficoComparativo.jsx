@@ -50,9 +50,12 @@ const GraficoComparativo = ({ consorcio, financiamento }) => {
   };
 
   return (
-    <div className="card" id="grafico">
-      <h2 className="text-xl sm:text-2xl font-bold text-center text-gray-800 mb-4 sm:mb-6 flex items-center justify-center gap-2">
-        <TrendingUp className="w-6 h-6 sm:w-7 sm:h-7 text-blue-600" />
+    <div
+      className="card hover-lift bg-white/80 backdrop-blur-sm animate-scale-in"
+      id="grafico"
+    >
+      <h2 className="text-xl sm:text-2xl font-bold text-center text-gray-800 mb-4 sm:mb-6 flex items-center justify-center gap-2 animate-bounce-in">
+        <TrendingUp className="w-6 h-6 sm:w-7 sm:h-7 text-blue-600 animate-float" />
         Comparação Visual
       </h2>
 

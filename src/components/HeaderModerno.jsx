@@ -3,11 +3,11 @@ import { Calculator, TrendingDown, Sparkles } from "lucide-react";
 
 const HeaderModerno = () => {
   return (
-    <header className="bg-gradient-to-r from-blue-600 via-blue-500 to-green-500 text-white relative overflow-hidden">
+    <header className="bg-gradient-to-r from-blue-600 via-blue-500 to-green-500 text-white relative overflow-hidden animate-gradient">
       {/* Padrão de fundo decorativo */}
       <div className="absolute inset-0 bg-grid-white/10"></div>
-      <div className="absolute -top-24 -right-24 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
-      <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-green-400/20 rounded-full blur-3xl"></div>
+      <div className="absolute -top-24 -right-24 w-96 h-96 bg-white/10 rounded-full blur-3xl animate-float-1"></div>
+      <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-green-400/20 rounded-full blur-3xl animate-float-2"></div>
 
       <div className="container mx-auto px-3 sm:px-4 py-8 sm:py-12 md:py-16 relative z-10">
         <div className="flex flex-col items-center text-center space-y-4 sm:space-y-6">
@@ -15,27 +15,30 @@ const HeaderModerno = () => {
 
           {/* Título */}
           <div className="space-y-2 sm:space-y-3">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight animate-fade-in">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight animate-bounce-in">
               Calculadora Comparativa
             </h1>
             <div
               className="flex items-center justify-center gap-2 animate-fade-in"
-              style={{ animationDelay: "0.1s" }}
+              style={{ animationDelay: "0.2s" }}
             >
-              <Sparkles className="w-5 h-5 text-yellow-300" />
+              <Sparkles className="w-5 h-5 text-yellow-300 animate-pulse-soft" />
               <p className="text-base sm:text-lg md:text-xl text-blue-50 max-w-3xl">
                 Compare e descubra as vantagens financeiras
               </p>
-              <Sparkles className="w-5 h-5 text-yellow-300" />
+              <Sparkles
+                className="w-5 h-5 text-yellow-300 animate-pulse-soft"
+                style={{ animationDelay: "0.5s" }}
+              />
             </div>
           </div>
 
           {/* Badge de economia */}
           <div
-            className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 sm:px-6 py-2 sm:py-3 rounded-full animate-fade-in"
-            style={{ animationDelay: "0.2s" }}
+            className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 sm:px-6 py-2 sm:py-3 rounded-full animate-scale-in hover:scale-105 transition-all duration-300 cursor-pointer"
+            style={{ animationDelay: "0.4s" }}
           >
-            <TrendingDown className="w-5 h-5 text-green-300" />
+            <TrendingDown className="w-5 h-5 text-green-300 animate-float" />
             <span className="text-sm sm:text-base font-semibold">
               Economize até 20% escolhendo a melhor opção
             </span>
