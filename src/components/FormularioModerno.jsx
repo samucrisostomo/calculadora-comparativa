@@ -49,7 +49,7 @@ const FormularioModerno = ({
             label: "Lance",
             placeholder: "Ex: 5.000 (opcional)",
             icon: TrendingUp,
-            info: `Valor de lance para antecipar contemplação (máx. ${config.lanceMaximoPercentual}%)`,
+            info: "Valor de lance para antecipar contemplação",
             required: false,
           },
           {
@@ -60,6 +60,16 @@ const FormularioModerno = ({
             info: `Período de pagamento entre 12 e ${config.prazoMaximoMeses} meses`,
             required: true,
             inputMode: "numeric",
+          },
+          {
+            id: "taxaAdministrativa",
+            label: "Taxa Administrativa (%)",
+            placeholder: "Ex: 15",
+            icon: TrendingUp,
+            info: "Taxa percentual aplicada sobre o valor do bem durante todo o período",
+            required: true,
+            inputMode: "decimal",
+            suffix: "%",
           },
         ]
       : [
@@ -76,7 +86,7 @@ const FormularioModerno = ({
             label: "Entrada",
             placeholder: `Ex: ${tipoBem === "carro" ? "5.000" : "100.000"}`,
             icon: DollarSign,
-            info: `Valor da entrada inicial (mín. ${config.entradaMinimaPercentual}%, máx. 80%)`,
+            info: "Valor da entrada inicial",
             required: true,
           },
           {
@@ -89,13 +99,11 @@ const FormularioModerno = ({
             inputMode: "numeric",
           },
           {
-            id: "taxaAnual",
-            label: "Taxa de Juros Anual (%)",
-            placeholder: `Ex: ${config.taxaJurosAnualBase}`,
+            id: "jurosTotais",
+            label: "Juros Totais (%)",
+            placeholder: "Ex: 20",
             icon: TrendingUp,
-            info: `Taxa de juros anual aplicada (base: ${
-              config.taxaJurosAnualBase
-            }% para ${tipoBem === "carro" ? "veículos" : "imóveis"})`,
+            info: "Percentual total de juros aplicado sobre o valor financiado durante todo o período",
             required: true,
             inputMode: "decimal",
             suffix: "%",
@@ -192,7 +200,7 @@ const FormularioModerno = ({
                   inputMode={campo.inputMode || "numeric"}
                   min="0"
                   step={
-                    campo.id === "taxaAnual"
+                    campo.id === "taxaAdministrativa" || campo.id === "jurosTotais"
                       ? "0.1"
                       : campo.id === "prazoMeses"
                       ? "1"
@@ -228,7 +236,7 @@ const FormularioModerno = ({
             } mb-2 text-sm flex items-center gap-2`}
           >
             <Info className="w-4 h-4" />
-            {tipo === "consorcio" ? "Taxas Aplicadas" : "Sistema de Cálculo"}
+            Como funciona
           </h4>
           <ul
             className={`${
@@ -237,33 +245,15 @@ const FormularioModerno = ({
           >
             {tipo === "consorcio" ? (
               <>
-                <li>
-                  • Taxa administrativa: {config.taxaAdministrativaAnual}% ao
-                  ano
-                </li>
-                <li>
-                  • Comissão: {config.comissaoPercentual}% do valor do bem
-                </li>
-                <li>• Parcelas fixas durante todo período</li>
+                <li>• Taxa aplicada sobre o valor total do bem</li>
+                <li>• Parcelas fixas durante todo o período</li>
+                <li>• Lance reduz o valor das parcelas mensais</li>
               </>
             ) : (
               <>
-                <li>• Sistema Price (parcelas fixas)</li>
-                <li>• Juros base: {config.taxaJurosAnualBase}% ao ano</li>
-                <li>• Seguro: {config.seguroAnualPercentual}% ao ano</li>
-                {tipoBem === "imovel" && (
-                  <>
-                    <li>
-                      • Taxa de avaliação: {config.taxaAvaliacaoPercentual}%
-                    </li>
-                    <li>• ITBI: {config.itbiPercentual}% (custo inicial)</li>
-                  </>
-                )}
-                {tipoBem === "carro" && (
-                  <li>
-                    • Licenciamento: R$ {config.taxaLicenciamentoAnual}/ano
-                  </li>
-                )}
+                <li>• Juros aplicados sobre o valor financiado</li>
+                <li>• Parcelas fixas durante todo o período</li>
+                <li>• Entrada reduz o valor a ser financiado</li>
               </>
             )}
           </ul>

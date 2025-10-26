@@ -137,14 +137,9 @@ const ResultadosModernos = ({ consorcio, financiamento, comparacao }) => {
               icon={Calendar}
             />
             <ItemResultado
-              label="Taxa Admin."
-              valor={formatarMoeda(consorcio.taxaAdministrativa)}
-              icon={DollarSign}
-            />
-            <ItemResultado
-              label="Comissão"
-              valor={formatarMoeda(consorcio.comissao)}
-              icon={DollarSign}
+              label="Taxa Administrativa"
+              valor={formatarPercentual(consorcio.taxaAdministrativaPercentual)}
+              icon={TrendingUp}
             />
 
             <Separator className="my-4" />
@@ -201,13 +196,13 @@ const ResultadosModernos = ({ consorcio, financiamento, comparacao }) => {
               icon={Calendar}
             />
             <ItemResultado
-              label="Taxa Anual"
-              valor={formatarPercentual(financiamento.taxaAnual)}
+              label="Juros Totais"
+              valor={formatarPercentual(financiamento.jurosTotaisPercentual)}
               icon={TrendingUp}
             />
             <div className="bg-red-50 border border-red-200 rounded-lg p-3">
               <ItemResultado
-                label="Total de Juros"
+                label="Valor dos Juros"
                 valor={formatarMoeda(financiamento.totalJuros)}
                 icon={TrendingUp}
               />

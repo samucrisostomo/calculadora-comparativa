@@ -97,23 +97,23 @@ const FormularioFinanciamento = ({ dados, onChange, erros = {} }) => {
           )}
         </div>
 
-        {/* Taxa de Juros */}
+        {/* Juros Totais */}
         <div>
           <label className="block text-sm sm:text-base font-semibold text-gray-700 mb-2">
-            Taxa de Juros Anual (%) *
-            <Tooltip text="Taxa de juros anual aplicada ao financiamento" />
+            Juros Totais (%) *
+            <Tooltip text="Percentual total de juros aplicado sobre o valor financiado durante todo o período" />
           </label>
           <div className="relative">
             <input
               type="number"
-              value={dados.taxaAnual || ""}
-              onChange={(e) => handleChange("taxaAnual", e.target.value)}
+              value={dados.jurosTotais || ""}
+              onChange={(e) => handleChange("jurosTotais", e.target.value)}
               className={`input-field pr-10 sm:pr-12 text-base sm:text-base ${
-                erros.taxaAnual ? "error" : ""
+                erros.jurosTotais ? "error" : ""
               }`}
-              placeholder="12,00"
-              min="0.1"
-              max="50"
+              placeholder="Ex: 20"
+              min="0"
+              max="200"
               step="0.1"
               inputMode="decimal"
             />
@@ -121,20 +121,20 @@ const FormularioFinanciamento = ({ dados, onChange, erros = {} }) => {
               %
             </span>
           </div>
-          {erros.taxaAnual && (
-            <p className="text-red-500 text-sm mt-1">{erros.taxaAnual}</p>
+          {erros.jurosTotais && (
+            <p className="text-red-500 text-sm mt-1">{erros.jurosTotais}</p>
           )}
         </div>
 
         {/* Informações adicionais */}
         <div className="bg-blue-100 border border-blue-300 rounded-lg p-3 sm:p-4 mt-4 sm:mt-6">
           <h3 className="font-semibold text-blue-800 mb-2 text-sm sm:text-base">
-            ℹ️ Sistema de Cálculo:
+            ℹ️ Como funciona:
           </h3>
           <ul className="text-xs sm:text-sm text-blue-700 space-y-1">
-            <li>• Sistema Price (parcelas fixas)</li>
-            <li>• Juros compostos mensais</li>
-            <li>• Parcelas iguais durante todo período</li>
+            <li>• Juros aplicados sobre o valor financiado</li>
+            <li>• Parcelas fixas durante todo o período</li>
+            <li>• Entrada reduz o valor a ser financiado</li>
           </ul>
         </div>
       </div>

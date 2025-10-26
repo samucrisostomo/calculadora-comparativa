@@ -4,94 +4,97 @@
 
 ### Consórcio
 
-#### 1. Taxa Administrativa
+#### 1. Valor com Taxa Administrativa
 
 ```
-Taxa Administrativa = Valor do Bem × 0,015 (1,5% ao ano)
-```
-
-#### 2. Comissão
-
-```
-Comissão = Valor do Bem × 0,02 (2%)
-```
-
-#### 3. Valor Financiado
-
-```
-Valor Financiado = Valor do Bem - Lance
-```
-
-#### 4. Parcela Mensal (Fixa)
-
-```
-Parcela Mensal = Valor Financiado ÷ Prazo em Meses
-```
-
-#### 5. Custo Total
-
-```
-Custo Total = (Parcela Mensal × Prazo) + Lance + Taxa Admin. + Comissão
-```
-
-### Financiamento (Sistema Price)
-
-#### 1. Taxa Mensal
-
-Conversão da taxa anual para mensal usando juros compostos:
-
-```
-Taxa Mensal = (1 + Taxa Anual)^(1/12) - 1
+Valor com Taxa = Valor do Bem × (1 + Taxa Administrativa %)
 ```
 
 **Exemplo:**
+- Valor do Bem: R$ 50.000
+- Taxa Administrativa: 15%
+- Valor com Taxa = 50.000 × (1 + 0,15) = R$ 57.500
 
-- Taxa Anual: 12% (0,12)
-- Taxa Mensal: (1,12)^(1/12) - 1 = 0,009489 (≈ 0,95% ao mês)
+#### 2. Parcela Mensal (Fixa)
 
-#### 2. Valor Financiado
+```
+Parcela Mensal = Valor com Taxa ÷ Prazo em Meses
+```
+
+**Exemplo:**
+- Valor com Taxa: R$ 57.500
+- Prazo: 60 meses
+- Parcela Mensal = 57.500 ÷ 60 = R$ 958,33
+
+#### 3. Custo Total
+
+```
+Custo Total = (Parcela Mensal × Prazo) + Lance
+```
+
+**Exemplo:**
+- Parcela Mensal: R$ 958,33
+- Prazo: 60 meses
+- Lance: R$ 5.000
+- Custo Total = (958,33 × 60) + 5.000 = R$ 62.500
+
+### Financiamento
+
+#### 1. Valor Financiado
 
 ```
 Valor Financiado = Valor do Bem - Entrada
 ```
 
-#### 3. Parcela Mensal (Sistema Price/PMT)
+**Exemplo:**
+- Valor do Bem: R$ 50.000
+- Entrada: R$ 5.000
+- Valor Financiado = 50.000 - 5.000 = R$ 45.000
+
+#### 2. Valor com Juros
 
 ```
-PMT = PV × [i(1+i)^n] ÷ [(1+i)^n - 1]
+Valor com Juros = Valor Financiado × (1 + Juros Totais %)
 ```
 
-Onde:
+**Exemplo:**
+- Valor Financiado: R$ 45.000
+- Juros Totais: 20%
+- Valor com Juros = 45.000 × (1 + 0,20) = R$ 54.000
 
-- **PMT** = Valor da Parcela
-- **PV** = Valor Presente (Valor Financiado)
-- **i** = Taxa de juros mensal (decimal)
-- **n** = Número de parcelas
-
-**Exemplo Prático:**
+#### 3. Parcela Mensal (Fixa)
 
 ```
-PV = 45.000
-i = 0,009489 (0,95% ao mês)
-n = 60 meses
-
-Fator = (1,009489)^60 = 1,7623
-PMT = 45.000 × [0,009489 × 1,7623] ÷ [1,7623 - 1]
-PMT = 45.000 × 0,01672 ÷ 0,7623
-PMT = 987,23
+Parcela Mensal = Valor com Juros ÷ Prazo em Meses
 ```
 
-#### 4. Custo Total
+**Exemplo:**
+- Valor com Juros: R$ 54.000
+- Prazo: 60 meses
+- Parcela Mensal = 54.000 ÷ 60 = R$ 900
+
+#### 4. Total de Juros Pagos
+
+```
+Total de Juros = Valor com Juros - Valor Financiado
+```
+
+**Exemplo:**
+- Valor com Juros: R$ 54.000
+- Valor Financiado: R$ 45.000
+- Total de Juros = 54.000 - 45.000 = R$ 9.000
+
+#### 5. Custo Total
 
 ```
 Custo Total = (Parcela Mensal × Prazo) + Entrada
 ```
 
-#### 5. Total de Juros
-
-```
-Total de Juros = Custo Total - Valor do Bem
-```
+**Exemplo:**
+- Parcela Mensal: R$ 900
+- Prazo: 60 meses
+- Entrada: R$ 5.000
+- Custo Total = (900 × 60) + 5.000 = R$ 59.000
 
 ## 🔢 Exemplos de Cálculo
 

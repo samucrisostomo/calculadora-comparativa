@@ -5,6 +5,7 @@ import { getConfig } from "./constants";
  * @param {number} valorBem - Valor do bem
  * @param {number} lance - Valor do lance
  * @param {number} prazoMeses - Prazo em meses
+ * @param {number} taxaAdministrativa - Taxa administrativa em percentual
  * @param {string} tipoBem - Tipo do bem ('carro' ou 'imovel')
  * @returns {object} Resultado dos cálculos do consórcio
  */
@@ -12,35 +13,24 @@ export const calcularConsorcio = (
   valorBem,
   lance,
   prazoMeses,
+  taxaAdministrativa,
   tipoBem = "carro"
 ) => {
-  const config = getConfig(tipoBem);
+  // Aplica a taxa administrativa sobre o valor do bem
+  const valorComTaxa = valorBem * (1 + taxaAdministrativa / 100);
 
-  // Taxa administrativa: baseada no tipo de bem
-  const taxaAdministrativa = (valorBem * config.taxaAdministrativaAnual) / 100;
+  // Parcela mensal: (valor com taxa) dividido pelo prazo
+  const parcelaMensal = valorComTaxa / prazoMeses;
 
-  // Comissão: baseada no tipo de bem
-  const comissao = (valorBem * config.comissaoPercentual) / 100;
-
-  // Valor a ser financiado (valor do bem menos o lance)
-  const valorFinanciado = valorBem - lance;
-
-  // Parcela mensal (fixa)
-  const parcelaMensal = valorFinanciado / prazoMeses;
-
-  // Custo total: (Parcela × Prazo) + Lance + Taxas + Comissão
-  const custoTotal =
-    parcelaMensal * prazoMeses + lance + taxaAdministrativa + comissao;
+  // Custo total: (Parcela × Prazo) + Lance
+  const custoTotal = parcelaMensal * prazoMeses + lance;
 
   return {
     valorBem,
     lance,
     prazoMeses,
-    taxaAdministrativa,
-    taxaAdministrativaPercentual: config.taxaAdministrativaAnual,
-    comissao,
-    comissaoPercentual: config.comissaoPercentual,
-    valorFinanciado,
+    taxaAdministrativaPercentual: taxaAdministrativa,
+    valorComTaxa,
     parcelaMensal,
     parcelaInicial: parcelaMensal,
     parcelaFinal: parcelaMensal,
@@ -51,11 +41,11 @@ export const calcularConsorcio = (
 };
 
 /**
- * Calcula os valores do financiamento usando Sistema Price
+ * Calcula os valores do financiamento
  * @param {number} valorBem - Valor do bem
  * @param {number} entrada - Valor da entrada
  * @param {number} prazoMeses - Prazo em meses
- * @param {number} taxaAnual - Taxa de juros anual em percentual
+ * @param {number} jurosTotais - Juros totais em percentual sobre o valor financiado
  * @param {string} tipoBem - Tipo do bem ('carro' ou 'imovel')
  * @returns {object} Resultado dos cálculos do financiamento
  */
@@ -63,78 +53,35 @@ export const calcularFinanciamento = (
   valorBem,
   entrada,
   prazoMeses,
-  taxaAnual,
+  jurosTotais,
   tipoBem = "carro"
 ) => {
-  const config = getConfig(tipoBem);
-
   // Valor a ser financiado
-  let valorFinanciado = valorBem - entrada;
+  const valorFinanciado = valorBem - entrada;
 
-  // Custos adicionais iniciais
-  let custosAdicionaisIniciais = 0;
+  // Aplica os juros totais sobre o valor financiado
+  const valorComJuros = valorFinanciado * (1 + jurosTotais / 100);
 
-  // Custos adicionais anuais
-  let custosAdicionaisAnuais = 0;
-
-  if (tipoBem === "imovel") {
-    // Taxa de avaliação (custo inicial)
-    const taxaAvaliacao = (valorBem * config.taxaAvaliacaoPercentual) / 100;
-    custosAdicionaisIniciais += taxaAvaliacao;
-
-    // ITBI (custo inicial)
-    const itbi = (valorBem * config.itbiPercentual) / 100;
-    custosAdicionaisIniciais += itbi;
-
-    // Seguro anual
-    const seguroAnual = (valorBem * config.seguroAnualPercentual) / 100;
-    const seguroTotal = (seguroAnual * prazoMeses) / 12;
-    custosAdicionaisAnuais += seguroTotal;
-  } else if (tipoBem === "carro") {
-    // Seguro anual
-    const seguroAnual = (valorBem * config.seguroAnualPercentual) / 100;
-    const seguroTotal = (seguroAnual * prazoMeses) / 12;
-    custosAdicionaisAnuais += seguroTotal;
-
-    // Taxa de licenciamento anual
-    const licenciamentoTotal =
-      (config.taxaLicenciamentoAnual * prazoMeses) / 12;
-    custosAdicionaisAnuais += licenciamentoTotal;
-  }
-
-  // Converte taxa anual para mensal
-  const taxaMensal = Math.pow(1 + taxaAnual / 100, 1 / 12) - 1;
-
-  // Calcula parcela usando Sistema Price (PMT)
-  // PMT = PV × [i(1+i)^n]/[(1+i)^n-1]
-  const fatorPrice = Math.pow(1 + taxaMensal, prazoMeses);
-  const parcelaMensal =
-    (valorFinanciado * (taxaMensal * fatorPrice)) / (fatorPrice - 1);
-
-  // Custo total: (Parcela × Prazo) + Entrada + Custos Adicionais
-  const custoTotal =
-    parcelaMensal * prazoMeses +
-    entrada +
-    custosAdicionaisIniciais +
-    custosAdicionaisAnuais;
+  // Parcela mensal: valor com juros dividido pelo prazo
+  const parcelaMensal = valorComJuros / prazoMeses;
 
   // Total de juros pagos
-  const totalJuros =
-    custoTotal - valorBem - custosAdicionaisIniciais - custosAdicionaisAnuais;
+  const totalJuros = valorComJuros - valorFinanciado;
+
+  // Custo total: (Parcela × Prazo) + Entrada
+  const custoTotal = parcelaMensal * prazoMeses + entrada;
 
   return {
     valorBem,
     entrada,
     prazoMeses,
-    taxaAnual,
-    taxaMensal: taxaMensal * 100,
+    jurosTotaisPercentual: jurosTotais,
     valorFinanciado,
+    valorComJuros,
     parcelaMensal,
     custoTotal,
     totalPago: custoTotal,
     totalJuros,
-    custosAdicionaisIniciais,
-    custosAdicionaisAnuais,
     tipoBem,
   };
 };

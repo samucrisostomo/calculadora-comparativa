@@ -3,7 +3,6 @@ import HeaderModerno from "./components/HeaderModerno";
 import TipoSelectorModerno from "./components/TipoSelectorModerno";
 import FormularioModerno from "./components/FormularioModerno";
 import ResultadosModernos from "./components/ResultadosModernos";
-import GraficoComparativo from "./components/GraficoComparativo";
 import BotaoGerarPDF from "./components/BotaoGerarPDF";
 import Footer from "./components/Footer";
 import LoadingModerno from "./components/LoadingModerno";
@@ -37,6 +36,7 @@ function App() {
     valorBem: 50000,
     lance: 5000,
     prazoMeses: 60,
+    taxaAdministrativa: 15, // Taxa administrativa padrão
   });
   const [errosConsorcio, setErrosConsorcio] = useState({});
 
@@ -45,20 +45,12 @@ function App() {
     valorBem: 50000,
     entrada: 5000,
     prazoMeses: 60,
-    taxaAnual: 12, // Será ajustado baseado no tipo de bem
+    jurosTotais: 20, // Juros totais padrão
   });
   const [errosFinanciamento, setErrosFinanciamento] = useState({});
 
   // Atualiza configurações quando o tipo de bem muda
   useEffect(() => {
-    const config = getConfig(tipoBem);
-
-    // Atualiza a taxa de juros do financiamento baseada no tipo
-    setDadosFinanciamento((prev) => ({
-      ...prev,
-      taxaAnual: config.taxaJurosAnualBase,
-    }));
-
     // Limpa resultados ao mudar o tipo
     setMostrarResultados(false);
   }, [tipoBem]);
@@ -97,6 +89,7 @@ function App() {
           dadosConsorcio.valorBem,
           dadosConsorcio.lance,
           dadosConsorcio.prazoMeses,
+          dadosConsorcio.taxaAdministrativa,
           tipoBem
         );
 
@@ -104,7 +97,7 @@ function App() {
           dadosFinanciamento.valorBem,
           dadosFinanciamento.entrada,
           dadosFinanciamento.prazoMeses,
-          dadosFinanciamento.taxaAnual,
+          dadosFinanciamento.jurosTotais,
           tipoBem
         );
 
@@ -255,11 +248,6 @@ function App() {
               consorcio={resultadoConsorcio}
               financiamento={resultadoFinanciamento}
               comparacao={comparacao}
-            />
-
-            <GraficoComparativo
-              consorcio={resultadoConsorcio}
-              financiamento={resultadoFinanciamento}
             />
 
             <BotaoGerarPDF

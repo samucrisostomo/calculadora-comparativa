@@ -97,15 +97,44 @@ const FormularioConsorcio = ({ dados, onChange, erros = {} }) => {
           )}
         </div>
 
+        {/* Taxa Administrativa */}
+        <div>
+          <label className="block text-sm sm:text-base font-semibold text-gray-700 mb-2">
+            Taxa Administrativa (%) *
+            <Tooltip text="Taxa percentual aplicada sobre o valor do bem durante todo o período" />
+          </label>
+          <div className="relative">
+            <input
+              type="number"
+              value={dados.taxaAdministrativa || ""}
+              onChange={(e) => handleChange("taxaAdministrativa", e.target.value)}
+              className={`input-field pr-10 sm:pr-12 text-base sm:text-base ${
+                erros.taxaAdministrativa ? "error" : ""
+              }`}
+              placeholder="Ex: 15"
+              min="0"
+              max="100"
+              step="0.1"
+              inputMode="decimal"
+            />
+            <span className="absolute right-3 top-3 sm:top-2.5 text-gray-500 text-sm sm:text-base">
+              %
+            </span>
+          </div>
+          {erros.taxaAdministrativa && (
+            <p className="text-red-500 text-sm mt-1">{erros.taxaAdministrativa}</p>
+          )}
+        </div>
+
         {/* Informações adicionais */}
         <div className="bg-green-100 border border-green-300 rounded-lg p-3 sm:p-4 mt-4 sm:mt-6">
           <h3 className="font-semibold text-green-800 mb-2 text-sm sm:text-base">
-            ℹ️ Taxas Aplicadas:
+            ℹ️ Como funciona:
           </h3>
           <ul className="text-xs sm:text-sm text-green-700 space-y-1">
-            <li>• Taxa administrativa: 1,5% ao ano</li>
-            <li>• Comissão: 2% do valor do bem</li>
+            <li>• Taxa aplicada sobre o valor total do bem</li>
             <li>• Parcelas fixas durante todo o período</li>
+            <li>• Lance reduz o valor das parcelas mensais</li>
           </ul>
         </div>
       </div>

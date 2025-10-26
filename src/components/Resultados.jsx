@@ -61,19 +61,10 @@ const Resultados = ({ consorcio, financiamento, comparacao }) => {
 
             <div className="flex justify-between items-center p-2 sm:p-3 bg-white rounded-lg">
               <span className="font-semibold text-gray-700 text-sm sm:text-base">
-                Taxa Admin.:
+                Taxa Administrativa:
               </span>
               <span className="text-base sm:text-lg font-bold text-gray-900">
-                {formatarMoeda(consorcio.taxaAdministrativa)}
-              </span>
-            </div>
-
-            <div className="flex justify-between items-center p-2 sm:p-3 bg-white rounded-lg">
-              <span className="font-semibold text-gray-700 text-sm sm:text-base">
-                Comissão:
-              </span>
-              <span className="text-base sm:text-lg font-bold text-gray-900">
-                {formatarMoeda(consorcio.comissao)}
+                {formatarPercentual(consorcio.taxaAdministrativaPercentual)}
               </span>
             </div>
 
@@ -136,16 +127,16 @@ const Resultados = ({ consorcio, financiamento, comparacao }) => {
 
             <div className="flex justify-between items-center p-2 sm:p-3 bg-white rounded-lg">
               <span className="font-semibold text-gray-700 text-sm sm:text-base">
-                Taxa Anual:
+                Juros Totais:
               </span>
               <span className="text-base sm:text-lg font-bold text-gray-900">
-                {formatarPercentual(financiamento.taxaAnual)}
+                {formatarPercentual(financiamento.jurosTotaisPercentual)}
               </span>
             </div>
 
             <div className="flex justify-between items-center p-2 sm:p-3 bg-white rounded-lg">
               <span className="font-semibold text-gray-700 text-sm sm:text-base">
-                Total Juros:
+                Valor dos Juros:
               </span>
               <span className="text-base sm:text-lg font-bold text-red-600">
                 {formatarMoeda(financiamento.totalJuros)}
