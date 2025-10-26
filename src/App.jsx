@@ -61,10 +61,15 @@ function App() {
   const [comparacao, setComparacao] = useState(null);
   const [mostrarResultados, setMostrarResultados] = useState(false);
 
-  // Validação e cálculo em tempo real (com debounce)
+  // Validação em tempo real (sem cálculo automático)
   useEffect(() => {
     const timer = setTimeout(() => {
-      calcularResultados();
+      // Apenas valida os campos, não calcula automaticamente
+      const errosC = validarConsorcio(dadosConsorcio, tipoBem);
+      setErrosConsorcio(errosC);
+
+      const errosF = validarFinanciamento(dadosFinanciamento, tipoBem);
+      setErrosFinanciamento(errosF);
     }, 500);
 
     return () => clearTimeout(timer);
@@ -110,14 +115,12 @@ function App() {
         setCalculando(false);
 
         // Scroll suave para resultados
-        if (mostrarResultados) {
-          setTimeout(() => {
-            document.getElementById("resultados")?.scrollIntoView({
-              behavior: "smooth",
-              block: "start",
-            });
-          }, 100);
-        }
+        setTimeout(() => {
+          document.getElementById("resultados")?.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+        }, 100);
       }, 300);
     } else {
       setMostrarResultados(false);
