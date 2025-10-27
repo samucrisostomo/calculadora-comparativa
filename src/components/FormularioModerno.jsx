@@ -114,34 +114,37 @@ const FormularioModerno = ({
 
   return (
     <Card
-      className={`border-2 ${cor} hover:scale-[1.01] transition-all duration-300 hover-lift bg-white/80 backdrop-blur-sm`}
+      className={`magic-card hover:scale-[1.01] transition-all duration-300 hover-lift border-2 ${cor} bg-gray-800/80 backdrop-blur-sm`}
     >
       <CardHeader>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div
               className={`p-3 rounded-full ${
-                tipo === "consorcio" ? "bg-green-100" : "bg-blue-100"
+                tipo === "consorcio" ? "bg-green-500/20" : "bg-blue-500/20"
               }`}
             >
               <IconeComponente
                 className={`w-8 h-8 ${
-                  tipo === "consorcio" ? "text-green-600" : "text-blue-600"
+                  tipo === "consorcio" ? "text-green-400" : "text-blue-400"
                 }`}
               />
             </div>
             <div>
-              <CardTitle className="text-xl sm:text-2xl">
+              <CardTitle className="text-xl sm:text-2xl text-white">
                 {tipo === "consorcio" ? "Consórcio" : "Financiamento"}
               </CardTitle>
-              <CardDescription>
+              <CardDescription className="text-gray-300">
                 {tipo === "consorcio"
                   ? "Sem juros, parcelas fixas"
-                  : "Sistema Price, juros compostos"}
+                  : "Juros simples, parcelas fixas"}
               </CardDescription>
             </div>
           </div>
-          <Badge variant={tipo === "consorcio" ? "secondary" : "default"}>
+          <Badge
+            variant={tipo === "consorcio" ? "secondary" : "default"}
+            className="bg-gray-700 text-white border-gray-600"
+          >
             {tipo === "consorcio" ? "Economia" : "Tradicional"}
           </Badge>
         </div>
@@ -154,14 +157,14 @@ const FormularioModerno = ({
             <div key={campo.id} className="space-y-2">
               <Label
                 htmlFor={campo.id}
-                className="text-gray-700 flex items-center gap-2"
+                className="text-white flex items-center gap-2"
               >
-                <Icon className="w-4 h-4" />
+                <Icon className="w-4 h-4 text-blue-400" />
                 {campo.label}{" "}
                 {campo.required && <span className="text-red-500">*</span>}
                 <div className="group relative">
                   <Info className="w-4 h-4 text-gray-400 cursor-help" />
-                  <div className="absolute hidden group-hover:block bg-gray-900 text-white text-xs rounded-lg p-2 w-48 -top-2 left-6 z-10">
+                  <div className="absolute hidden group-hover:block bg-gray-900 text-white text-xs rounded-lg p-2 w-48 -top-2 left-6 z-10 border border-gray-600 shadow-xl backdrop-blur-sm">
                     {campo.info}
                   </div>
                 </div>
@@ -170,7 +173,7 @@ const FormularioModerno = ({
                 {campo.id.includes("valor") ||
                 campo.id === "entrada" ||
                 campo.id === "lance" ? (
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
                     R$
                   </span>
                 ) : null}
@@ -194,13 +197,14 @@ const FormularioModerno = ({
                       : "focus:scale-[1.01] transition-all duration-200"
                   } ${
                     dados[campo.id] && !erros[campo.id]
-                      ? "border-green-400 bg-green-50/30"
+                      ? "border-green-400 bg-green-500/10"
                       : ""
-                  }`}
+                  } bg-gray-800 border-gray-600 text-white backdrop-blur-sm`}
                   inputMode={campo.inputMode || "numeric"}
                   min="0"
                   step={
-                    campo.id === "taxaAdministrativa" || campo.id === "jurosTotais"
+                    campo.id === "taxaAdministrativa" ||
+                    campo.id === "jurosTotais"
                       ? "0.1"
                       : campo.id === "prazoMeses"
                       ? "1"
@@ -208,13 +212,13 @@ const FormularioModerno = ({
                   }
                 />
                 {campo.suffix && (
-                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500">
+                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
                     {campo.suffix}
                   </span>
                 )}
               </div>
               {erros[campo.id] && (
-                <p className="text-sm text-red-600 flex items-center gap-1 animate-fade-in">
+                <p className="text-sm text-red-500 flex items-center gap-1 animate-fade-in">
                   <Info className="w-4 h-4" />
                   {erros[campo.id]}
                 </p>
@@ -226,13 +230,13 @@ const FormularioModerno = ({
         <div
           className={`${
             tipo === "consorcio"
-              ? "bg-green-50 border-green-200"
-              : "bg-blue-50 border-blue-200"
-          } border rounded-lg p-4 mt-6`}
+              ? "bg-green-500/10 border-green-500/30"
+              : "bg-blue-500/10 border-blue-500/30"
+          } border rounded-lg p-4 mt-6 backdrop-blur-sm`}
         >
           <h4
             className={`font-semibold ${
-              tipo === "consorcio" ? "text-green-800" : "text-blue-800"
+              tipo === "consorcio" ? "text-green-400" : "text-blue-400"
             } mb-2 text-sm flex items-center gap-2`}
           >
             <Info className="w-4 h-4" />
@@ -240,7 +244,7 @@ const FormularioModerno = ({
           </h4>
           <ul
             className={`${
-              tipo === "consorcio" ? "text-green-700" : "text-blue-700"
+              tipo === "consorcio" ? "text-green-300" : "text-blue-300"
             } text-xs space-y-1`}
           >
             {tipo === "consorcio" ? (

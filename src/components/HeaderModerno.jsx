@@ -3,7 +3,10 @@ import { Calculator, TrendingDown, Sparkles } from "lucide-react";
 
 const HeaderModerno = () => {
   return (
-    <header className="bg-gradient-to-r from-blue-600 via-blue-500 to-green-500 text-white relative overflow-hidden animate-gradient">
+    <header className="relative overflow-hidden">
+      {/* Overlay escuro com gradiente para contraste */}
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-600/60 via-purple-600/60 to-green-600/60 backdrop-blur-sm"></div>
+
       {/* Padrão de fundo decorativo */}
       <div className="absolute inset-0 bg-grid-white/10"></div>
       <div className="absolute -top-24 -right-24 w-96 h-96 bg-white/10 rounded-full blur-3xl animate-float-1"></div>
@@ -15,7 +18,7 @@ const HeaderModerno = () => {
 
           {/* Título */}
           <div className="space-y-2 sm:space-y-3">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight animate-bounce-in">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight animate-bounce-in text-white drop-shadow-2xl">
               Calculadora Comparativa
             </h1>
             <div
@@ -23,7 +26,7 @@ const HeaderModerno = () => {
               style={{ animationDelay: "0.2s" }}
             >
               <Sparkles className="w-5 h-5 text-yellow-300 animate-pulse-soft" />
-              <p className="text-base sm:text-lg md:text-xl text-blue-50 max-w-3xl">
+              <p className="text-base sm:text-lg md:text-xl text-white/90 max-w-3xl drop-shadow-lg">
                 Compare e descubra as vantagens financeiras
               </p>
               <Sparkles
@@ -46,16 +49,29 @@ const HeaderModerno = () => {
         </div>
       </div>
 
-      {/* Ondas decorativas na parte inferior */}
+      {/* Ondas decorativas na parte inferior com efeito mágico */}
       <div className="absolute bottom-0 left-0 right-0">
         <svg
           className="w-full h-8 sm:h-12"
           viewBox="0 0 1200 120"
           preserveAspectRatio="none"
         >
+          <defs>
+            <linearGradient
+              id="wave-gradient"
+              x1="0%"
+              y1="0%"
+              x2="100%"
+              y2="0%"
+            >
+              <stop offset="0%" stopColor="rgba(14, 165, 233, 0.8)" />
+              <stop offset="50%" stopColor="rgba(139, 92, 246, 0.8)" />
+              <stop offset="100%" stopColor="rgba(34, 197, 94, 0.8)" />
+            </linearGradient>
+          </defs>
           <path
             d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
-            className="fill-gray-50"
+            className="fill-gray-900 opacity-90"
           ></path>
         </svg>
       </div>

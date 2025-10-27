@@ -6,6 +6,7 @@ import ResultadosModernos from "./components/ResultadosModernos";
 import BotaoGerarPDF from "./components/BotaoGerarPDF";
 import Footer from "./components/Footer";
 import LoadingModerno from "./components/LoadingModerno";
+import MagicBackground from "./components/MagicBackground";
 import { Button } from "./components/ui/button";
 import {
   calcularConsorcio,
@@ -145,37 +146,13 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col relative overflow-hidden">
-      {/* Background Gradiente Animado */}
-      <div className="fixed inset-0 -z-10 bg-gradient-to-br from-blue-50 via-purple-50 to-green-50 animate-gradient"></div>
-
-      {/* Formas Geométricas Flutuantes */}
-      <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
-        {/* Círculo grande azul */}
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-blue-400/30 to-purple-400/30 rounded-full blur-3xl animate-float-1"></div>
-
-        {/* Círculo médio verde */}
-        <div className="absolute top-1/4 -left-32 w-80 h-80 bg-gradient-to-br from-green-400/30 to-emerald-400/30 rounded-full blur-3xl animate-float-2"></div>
-
-        {/* Círculo pequeno roxo */}
-        <div className="absolute bottom-20 right-1/4 w-64 h-64 bg-gradient-to-br from-purple-400/30 to-pink-400/30 rounded-full blur-3xl animate-float-3"></div>
-
-        {/* Círculo pequeno amarelo */}
-        <div
-          className="absolute bottom-1/3 left-1/3 w-48 h-48 bg-gradient-to-br from-yellow-400/20 to-orange-400/20 rounded-full blur-2xl animate-float-1"
-          style={{ animationDelay: "2s" }}
-        ></div>
-
-        {/* Forma geométrica diagonal */}
-        <div
-          className="absolute top-1/2 right-1/3 w-72 h-72 bg-gradient-to-br from-cyan-400/20 to-blue-400/20 rounded-3xl blur-2xl rotate-45 animate-float-2"
-          style={{ animationDelay: "1s" }}
-        ></div>
-      </div>
+    <div className="min-h-screen text-white relative overflow-hidden">
+      {/* Background mágico */}
+      <MagicBackground />
 
       <HeaderModerno />
 
-      <main className="flex-grow container mx-auto px-3 sm:px-4 py-6 sm:py-8 md:py-12">
+      <main className="flex-grow container mx-auto px-3 sm:px-4 py-6 sm:py-8 md:py-12 relative z-10">
         {/* Seletor de tipo de bem */}
         <TipoSelectorModerno tipoBem={tipoBem} setTipoBem={setTipoBem} />
 
@@ -219,7 +196,7 @@ function App() {
               temErros(errosFinanciamento)
             }
             size="lg"
-            className="w-full sm:w-auto text-base sm:text-lg px-8 sm:px-12 h-14 sm:h-16 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-110 hover-lift animate-glow"
+            className="shimmer-button w-full sm:w-auto text-base sm:text-lg px-8 sm:px-12 h-14 sm:h-16 shadow-2xl hover:shadow-2xl transition-all duration-300 transform hover:scale-110 hover-lift bg-gradient-to-r from-blue-600 via-green-600 to-purple-600"
           >
             {calculando ? (
               <>
@@ -234,7 +211,7 @@ function App() {
             )}
           </Button>
           {(temErros(errosConsorcio) || temErros(errosFinanciamento)) && (
-            <p className="text-red-600 mt-4 font-semibold text-sm sm:text-base flex items-center justify-center gap-2 animate-fade-in">
+            <p className="text-red-500 mt-4 font-semibold text-sm sm:text-base flex items-center justify-center gap-2 animate-fade-in">
               <AlertCircle className="w-5 h-5" />
               Por favor, corrija os erros nos formulários acima
             </p>
