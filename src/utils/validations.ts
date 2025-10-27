@@ -15,7 +15,7 @@ export interface DadosFinanciamento {
   valorBem?: number;
   entrada?: number;
   prazoMeses?: number;
-  jurosTotais?: number;
+  jurosAnuais?: number;
 }
 
 /**
@@ -118,12 +118,12 @@ export const validarFinanciamento = (
     erros.prazoMeses = `Prazo máximo é de ${config.prazoMaximoMeses} meses`;
   }
 
-  // Juros Totais
-  if (!data.jurosTotais || data.jurosTotais < 0) {
-    erros.jurosTotais =
-      "Juros totais são obrigatórios e não podem ser negativos";
-  } else if (data.jurosTotais > 200) {
-    erros.jurosTotais = "Juros totais não podem ser maiores que 200%";
+  // Juros Anuais
+  if (data.jurosAnuais === undefined || data.jurosAnuais < 0) {
+    erros.jurosAnuais =
+      "Juros anuais são obrigatórios e não podem ser negativos";
+  } else if (data.jurosAnuais > 50) {
+    erros.jurosAnuais = "Juros anuais não podem ser maiores que 50%";
   }
 
   return erros;

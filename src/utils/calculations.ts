@@ -7,8 +7,6 @@ export interface ResultadoConsorcio {
   taxaAdministrativaPercentual: number;
   valorComTaxa: number;
   parcelaMensal: number;
-  parcelaInicial: number;
-  parcelaFinal: number;
   custoTotal: number;
   totalPago: number;
   tipoBem: TipoBem;
@@ -18,9 +16,8 @@ export interface ResultadoFinanciamento {
   valorBem: number;
   entrada: number;
   prazoMeses: number;
-  jurosTotaisPercentual: number;
+  jurosAnuaisPercentual: number;
   valorFinanciado: number;
-  valorComJuros: number;
   parcelaMensal: number;
   custoTotal: number;
   totalPago: number;
@@ -68,8 +65,6 @@ export const calcularConsorcio = (
     taxaAdministrativaPercentual: taxaAdministrativa,
     valorComTaxa,
     parcelaMensal,
-    parcelaInicial: parcelaMensal,
-    parcelaFinal: parcelaMensal,
     custoTotal,
     totalPago: custoTotal,
     tipoBem,
@@ -77,11 +72,11 @@ export const calcularConsorcio = (
 };
 
 /**
- * Calcula os valores do financiamento
+ * Calcula os valores do financiamento usando Sistema Price (juros compostos)
  * @param valorBem - Valor do bem
  * @param entrada - Valor da entrada
  * @param prazoMeses - Prazo em meses
- * @param jurosTotais - Juros totais em percentual sobre o valor financiado
+ * @param jurosAnuais - Juros anuais em percentual
  * @param tipoBem - Tipo do bem ('carro' ou 'imovel')
  * @returns Resultado dos cálculos do financiamento
  */
@@ -89,31 +84,31 @@ export const calcularFinanciamento = (
   valorBem: number,
   entrada: number,
   prazoMeses: number,
-  jurosTotais: number,
+  jurosAnuais: number,
   tipoBem: TipoBem = "carro"
 ): ResultadoFinanciamento => {
   // Valor a ser financiado
   const valorFinanciado = valorBem - entrada;
 
-  // Aplica os juros totais sobre o valor financiado
-  const valorComJuros = valorFinanciado * (1 + jurosTotais / 100);
+  // 1. Converter juros anuais para taxa mensal (juros compostos)
+  const taxaMensal = Math.pow(1 + jurosAnuais / 100, 1 / 12) - 1;
 
-  // Parcela mensal: valor com juros dividido pelo prazo
-  const parcelaMensal = valorComJuros / prazoMeses;
+  // 2. Calcular fator de multiplicação
+  const fator = Math.pow(1 + taxaMensal, prazoMeses);
 
-  // Total de juros pagos
-  const totalJuros = valorComJuros - valorFinanciado;
+  // 3. Calcular parcela usando fórmula Price
+  const parcelaMensal = (valorFinanciado * (taxaMensal * fator)) / (fator - 1);
 
-  // Custo total: (Parcela × Prazo) + Entrada
+  // 4. Calcular totais
   const custoTotal = parcelaMensal * prazoMeses + entrada;
+  const totalJuros = custoTotal - valorBem;
 
   return {
     valorBem,
     entrada,
     prazoMeses,
-    jurosTotaisPercentual: jurosTotais,
+    jurosAnuaisPercentual: jurosAnuais,
     valorFinanciado,
-    valorComJuros,
     parcelaMensal,
     custoTotal,
     totalPago: custoTotal,

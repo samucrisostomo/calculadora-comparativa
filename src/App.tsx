@@ -58,7 +58,7 @@ function App() {
       valorBem: 50000,
       entrada: 5000,
       prazoMeses: 60,
-      jurosTotais: 20, // Juros totais padrão
+      jurosAnuais: 12, // Juros anuais padrão (Sistema Price)
     });
   const [errosFinanciamento, setErrosFinanciamento] = useState<Erros>({});
 
@@ -117,7 +117,7 @@ function App() {
           dadosFinanciamento.valorBem!,
           dadosFinanciamento.entrada!,
           dadosFinanciamento.prazoMeses!,
-          dadosFinanciamento.jurosTotais!,
+          dadosFinanciamento.jurosAnuais!,
           tipoBem
         );
 
@@ -306,7 +306,7 @@ function App() {
 
       <Footer />
 
-      <style jsx>{`
+      <style>{`
         @keyframes fadeIn {
           from {
             opacity: 0;

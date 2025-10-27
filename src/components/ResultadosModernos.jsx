@@ -210,8 +210,8 @@ const ResultadosModernos = ({ consorcio, financiamento, comparacao }) => {
               icon={Calendar}
             />
             <ItemResultado
-              label="Juros Totais"
-              valor={formatarPercentual(financiamento.jurosTotaisPercentual)}
+              label="Juros Anuais"
+              valor={formatarPercentual(financiamento.jurosAnuaisPercentual)}
               icon={TrendingUp}
             />
             <ItemResultado

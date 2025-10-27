@@ -99,11 +99,11 @@ const FormularioModerno = ({
             inputMode: "numeric",
           },
           {
-            id: "jurosTotais",
-            label: "Juros Totais (%)",
-            placeholder: "Ex: 20",
+            id: "jurosAnuais",
+            label: "Juros Anuais (%)",
+            placeholder: "Ex: 12",
             icon: TrendingUp,
-            info: "Percentual total de juros aplicado sobre o valor financiado durante todo o período",
+            info: "Taxa de juros anual que será convertida para juros compostos mensais (Sistema Price)",
             required: true,
             inputMode: "decimal",
             suffix: "%",
@@ -137,7 +137,7 @@ const FormularioModerno = ({
               <CardDescription className="text-gray-300">
                 {tipo === "consorcio"
                   ? "Sem juros, parcelas fixas"
-                  : "Juros simples, parcelas fixas"}
+                  : "Juros compostos (Price), parcelas fixas"}
               </CardDescription>
             </div>
           </div>
@@ -204,7 +204,7 @@ const FormularioModerno = ({
                   min="0"
                   step={
                     campo.id === "taxaAdministrativa" ||
-                    campo.id === "jurosTotais"
+                    campo.id === "jurosAnuais"
                       ? "0.1"
                       : campo.id === "prazoMeses"
                       ? "1"

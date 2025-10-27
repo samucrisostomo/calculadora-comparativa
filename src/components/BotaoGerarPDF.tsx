@@ -109,11 +109,7 @@ const BotaoGerarPDF: React.FC<BotaoGerarPDFProps> = ({
         ["Prazo", `${consorcio.prazoMeses} meses`],
         [
           "Taxa Administrativa",
-          formatarPercentual(
-            consorcio.taxaAdministrativaPercentual ||
-              consorcio.taxaAdministrativa ||
-              15
-          ),
+          formatarPercentual(consorcio.taxaAdministrativaPercentual || 15),
         ],
       ];
 
@@ -168,12 +164,8 @@ const BotaoGerarPDF: React.FC<BotaoGerarPDFProps> = ({
         ["Parcela Mensal", formatarMoeda(financiamento.parcelaMensal)],
         ["Prazo", `${financiamento.prazoMeses} meses`],
         [
-          "Juros Totais",
-          formatarPercentual(
-            financiamento.jurosTotaisPercentual ||
-              financiamento.jurosTotais ||
-              20
-          ),
+          "Juros Anuais",
+          formatarPercentual(financiamento.jurosAnuaisPercentual || 12),
         ],
         ["Valor dos Juros", formatarMoeda(financiamento.totalJuros || 0)],
       ];
