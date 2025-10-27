@@ -1,7 +1,7 @@
 import React from "react";
 import { Calculator, ArrowDown, CheckCircle2 } from "lucide-react";
 
-const HeaderModerno = () => {
+const HeaderModerno: React.FC = () => {
   return (
     <header className="relative overflow-hidden">
       {/* Overlay gradiente simplificado */}
@@ -13,6 +13,7 @@ const HeaderModerno = () => {
 
       <div className="container mx-auto px-3 sm:px-4 py-6 sm:py-10 md:py-12 relative z-10">
         <div className="flex flex-col items-center text-center space-y-3 sm:space-y-4">
+
           {/* Título */}
           <div className="space-y-2">
             <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white drop-shadow-lg">

@@ -12,13 +12,19 @@ import {
   calcularConsorcio,
   calcularFinanciamento,
   compararModalidades,
+  ResultadoConsorcio,
+  ResultadoFinanciamento,
+  Comparacao,
 } from "./utils/calculations";
 import {
   validarConsorcio,
   validarFinanciamento,
   temErros,
+  Erros,
+  DadosConsorcio,
+  DadosFinanciamento,
 } from "./utils/validations";
-import { getConfig } from "./utils/constants";
+import { TipoBem } from "./utils/constants";
 import {
   Calculator,
   Loader2,
@@ -28,27 +34,33 @@ import {
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "./components/ui/card";
 
+interface InfoCard {
+  title: string;
+  desc: string;
+}
+
 function App() {
-  const [tipoBem, setTipoBem] = useState("carro");
-  const [calculando, setCalculando] = useState(false);
+  const [tipoBem, setTipoBem] = useState<TipoBem>("carro");
+  const [calculando, setCalculando] = useState<boolean>(false);
 
   // Estados para Consórcio
-  const [dadosConsorcio, setDadosConsorcio] = useState({
+  const [dadosConsorcio, setDadosConsorcio] = useState<DadosConsorcio>({
     valorBem: 50000,
     lance: 5000,
     prazoMeses: 60,
     taxaAdministrativa: 15, // Taxa administrativa padrão
   });
-  const [errosConsorcio, setErrosConsorcio] = useState({});
+  const [errosConsorcio, setErrosConsorcio] = useState<Erros>({});
 
   // Estados para Financiamento
-  const [dadosFinanciamento, setDadosFinanciamento] = useState({
-    valorBem: 50000,
-    entrada: 5000,
-    prazoMeses: 60,
-    jurosTotais: 20, // Juros totais padrão
-  });
-  const [errosFinanciamento, setErrosFinanciamento] = useState({});
+  const [dadosFinanciamento, setDadosFinanciamento] =
+    useState<DadosFinanciamento>({
+      valorBem: 50000,
+      entrada: 5000,
+      prazoMeses: 60,
+      jurosTotais: 20, // Juros totais padrão
+    });
+  const [errosFinanciamento, setErrosFinanciamento] = useState<Erros>({});
 
   // Atualiza configurações quando o tipo de bem muda
   useEffect(() => {
@@ -57,10 +69,12 @@ function App() {
   }, [tipoBem]);
 
   // Resultados
-  const [resultadoConsorcio, setResultadoConsorcio] = useState(null);
-  const [resultadoFinanciamento, setResultadoFinanciamento] = useState(null);
-  const [comparacao, setComparacao] = useState(null);
-  const [mostrarResultados, setMostrarResultados] = useState(false);
+  const [resultadoConsorcio, setResultadoConsorcio] =
+    useState<ResultadoConsorcio | null>(null);
+  const [resultadoFinanciamento, setResultadoFinanciamento] =
+    useState<ResultadoFinanciamento | null>(null);
+  const [comparacao, setComparacao] = useState<Comparacao | null>(null);
+  const [mostrarResultados, setMostrarResultados] = useState<boolean>(false);
 
   // Validação em tempo real (sem cálculo automático)
   useEffect(() => {
@@ -92,18 +106,18 @@ function App() {
       // Simula cálculo (para mostrar loading)
       setTimeout(() => {
         const resConsorcio = calcularConsorcio(
-          dadosConsorcio.valorBem,
-          dadosConsorcio.lance,
-          dadosConsorcio.prazoMeses,
-          dadosConsorcio.taxaAdministrativa,
+          dadosConsorcio.valorBem!,
+          dadosConsorcio.lance!,
+          dadosConsorcio.prazoMeses!,
+          dadosConsorcio.taxaAdministrativa!,
           tipoBem
         );
 
         const resFinanciamento = calcularFinanciamento(
-          dadosFinanciamento.valorBem,
-          dadosFinanciamento.entrada,
-          dadosFinanciamento.prazoMeses,
-          dadosFinanciamento.jurosTotais,
+          dadosFinanciamento.valorBem!,
+          dadosFinanciamento.entrada!,
+          dadosFinanciamento.prazoMeses!,
+          dadosFinanciamento.jurosTotais!,
           tipoBem
         );
 
@@ -144,6 +158,25 @@ function App() {
       }, 100);
     }
   };
+
+  const infoCards: InfoCard[] = [
+    {
+      title: "Sem Juros Abusivos",
+      desc: "No consórcio você não paga juros compostos. As taxas são transparentes e muito menores.",
+    },
+    {
+      title: "Parcelas Fixas",
+      desc: "As parcelas permanecem as mesmas do início ao fim, facilitando o planejamento financeiro.",
+    },
+    {
+      title: "Economia Real",
+      desc: "No final, você pode economizar milhares de reais em comparação ao financiamento tradicional.",
+    },
+    {
+      title: "Flexibilidade",
+      desc: "Possibilidade de dar lances para antecipar a contemplação e usar o crédito quando precisar.",
+    },
+  ];
 
   return (
     <div className="min-h-screen text-white relative overflow-hidden">
@@ -249,33 +282,8 @@ function App() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-                {[
-                  {
-                    title: "Sem Juros Compostos",
-                    desc: "No consórcio você paga apenas taxas administrativas fixas e transparentes, sem juros que aumentam conforme o tempo.",
-                  },
-                  {
-                    title: "Parcelas Sempre Fixas",
-                    desc: "O valor da parcela permanece o mesmo durante todo o período, facilitando o planejamento e controle do orçamento.",
-                  },
-                  {
-                    title: "Economia Significativa",
-                    desc: "Você economiza uma quantia substancial no longo prazo, pois o custo total é muito menor que no financiamento.",
-                  },
-                  {
-                    title: "Lance Para Antecipar",
-                    desc: "Com lances você pode ser contemplado antes do sorteio, adquirindo seu bem mais rapidamente quando precisar.",
-                  },
-                  {
-                    title: "Sem Compromisso Bancário",
-                    desc: "O consórcio não compromete sua linha de crédito no banco, mantendo suas opções abertas para outras necessidades.",
-                  },
-                  {
-                    title: "Sem Surpresas",
-                    desc: "Você conhece exatamente quanto pagará desde o início, sem variações de taxa ou reajustes inesperados.",
-                  },
-                ].map((item, index) => (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                {infoCards.map((item, index) => (
                   <div
                     key={index}
                     className="bg-white rounded-lg p-4 shadow-sm hover:shadow-md transition-all hover:scale-[1.02] hover-lift animate-fade-in"

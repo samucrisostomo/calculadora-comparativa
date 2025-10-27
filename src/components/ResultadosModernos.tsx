@@ -15,34 +15,62 @@ import {
   Building2,
   BarChart3,
   Check,
+  LucideIcon,
 } from "lucide-react";
+import {
+  ResultadoConsorcio,
+  ResultadoFinanciamento,
+  Comparacao,
+} from "../utils/calculations";
 
-const ResultadosModernos = ({ consorcio, financiamento, comparacao }) => {
+interface ResultadosModernosProps {
+  consorcio: ResultadoConsorcio | null;
+  financiamento: ResultadoFinanciamento | null;
+  comparacao: Comparacao | null;
+}
+
+interface ItemResultadoProps {
+  label: string;
+  valor: string;
+  icon: LucideIcon;
+  destaque?: boolean;
+}
+
+const ItemResultado: React.FC<ItemResultadoProps> = ({
+  label,
+  valor,
+  icon: Icon,
+  destaque = false,
+}) => (
+  <div
+    className={`flex justify-between items-center p-3 rounded-lg transition-all hover:scale-[1.02] border ${
+      destaque
+        ? "bg-gradient-to-r from-blue-500/10 to-green-500/10 border-blue-500/30"
+        : "bg-gray-800/50 border-gray-700/50"
+    }`}
+  >
+    <span className="flex items-center gap-2 text-sm sm:text-base font-medium text-gray-300">
+      <Icon className="w-4 h-4 text-gray-400" />
+      {label}
+    </span>
+    <span
+      className={`text-sm sm:text-lg font-bold ${
+        destaque ? "text-blue-400" : "text-gray-100"
+      }`}
+    >
+      {valor}
+    </span>
+  </div>
+);
+
+const ResultadosModernos: React.FC<ResultadosModernosProps> = ({
+  consorcio,
+  financiamento,
+  comparacao,
+}) => {
   if (!consorcio || !financiamento || !comparacao) {
     return null;
   }
-
-  const ItemResultado = ({ label, valor, icon: Icon, destaque = false }) => (
-    <div
-      className={`flex justify-between items-center p-3 rounded-lg transition-all hover:scale-[1.02] border ${
-        destaque
-          ? "bg-gradient-to-r from-blue-500/10 to-green-500/10 border-blue-500/30"
-          : "bg-gray-800/50 border-gray-700/50"
-      }`}
-    >
-      <span className="flex items-center gap-2 text-sm sm:text-base font-medium text-gray-300">
-        <Icon className="w-4 h-4 text-gray-400" />
-        {label}
-      </span>
-      <span
-        className={`text-sm sm:text-lg font-bold ${
-          destaque ? "text-blue-400" : "text-gray-100"
-        }`}
-      >
-        {valor}
-      </span>
-    </div>
-  );
 
   return (
     <div id="resultados" className="space-y-6 sm:space-y-8 animate-fade-in">
@@ -106,19 +134,14 @@ const ResultadosModernos = ({ consorcio, financiamento, comparacao }) => {
       {/* Cards de Comparação */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
         {/* Card Consórcio */}
-        <Card className="border-2 border-green-400/50 hover:border-green-500/80 hover:shadow-2xl transition-all duration-300 animate-slide-in hover-lift bg-gradient-to-br from-green-950/50 via-gray-800/90 to-gray-900/90 backdrop-blur-md shadow-xl">
-          <CardHeader className="bg-gradient-to-r from-green-600/20 to-transparent border-b border-green-500/30">
+        <Card className="border-2 border-green-300 hover:shadow-2xl transition-all animate-slide-in hover-lift bg-white/90 backdrop-blur-sm">
+          <CardHeader className="bg-gradient-to-br from-green-50 to-white/50">
             <div className="flex items-center justify-between">
-              <CardTitle className="text-xl sm:text-2xl text-green-400 font-bold flex items-center gap-3">
-                <div className="p-2 bg-green-500/20 rounded-lg">
-                  <Sprout className="w-6 h-6 text-green-400" />
-                </div>
+              <CardTitle className="text-xl sm:text-2xl text-green-700 flex items-center gap-2">
+                <Sprout className="w-6 h-6" />
                 Consórcio
               </CardTitle>
-              <Badge
-                variant="secondary"
-                className="text-sm bg-green-600/20 text-green-300 border-green-500/30"
-              >
+              <Badge variant="secondary" className="text-sm">
                 Economia
               </Badge>
             </div>
@@ -151,14 +174,14 @@ const ResultadosModernos = ({ consorcio, financiamento, comparacao }) => {
               icon={TrendingUp}
             />
 
-            <Separator className="my-4 border-gray-700" />
+            <Separator className="my-4" />
 
-            <div className="bg-gradient-to-r from-green-600/20 to-green-500/20 border border-green-500/40 rounded-xl p-4 backdrop-blur-sm">
+            <div className="bg-green-100 border-2 border-green-400 rounded-xl p-4">
               <div className="flex items-center justify-between">
-                <span className="text-base sm:text-lg font-bold text-green-300">
+                <span className="text-base sm:text-lg font-bold text-green-900">
                   Custo Total
                 </span>
-                <span className="text-xl sm:text-2xl font-bold text-green-400">
+                <span className="text-xl sm:text-2xl font-bold text-green-700">
                   {formatarMoeda(consorcio.custoTotal)}
                 </span>
               </div>
@@ -168,21 +191,16 @@ const ResultadosModernos = ({ consorcio, financiamento, comparacao }) => {
 
         {/* Card Financiamento */}
         <Card
-          className="border-2 border-blue-400/50 hover:border-blue-500/80 hover:shadow-2xl transition-all duration-300 animate-slide-in hover-lift bg-gradient-to-br from-blue-950/50 via-gray-800/90 to-gray-900/90 backdrop-blur-md shadow-xl"
+          className="border-2 border-blue-300 hover:shadow-2xl transition-all animate-slide-in hover-lift bg-white/90 backdrop-blur-sm"
           style={{ animationDelay: "0.1s" }}
         >
-          <CardHeader className="bg-gradient-to-r from-blue-600/20 to-transparent border-b border-blue-500/30">
+          <CardHeader className="bg-gradient-to-br from-blue-50 to-white/50">
             <div className="flex items-center justify-between">
-              <CardTitle className="text-xl sm:text-2xl text-blue-400 font-bold flex items-center gap-3">
-                <div className="p-2 bg-blue-500/20 rounded-lg">
-                  <Building2 className="w-6 h-6 text-blue-400" />
-                </div>
+              <CardTitle className="text-xl sm:text-2xl text-blue-700 flex items-center gap-2">
+                <Building2 className="w-6 h-6" />
                 Financiamento
               </CardTitle>
-              <Badge
-                variant="default"
-                className="text-sm bg-blue-600/20 text-blue-300 border-blue-500/30"
-              >
+              <Badge variant="default" className="text-sm">
                 Tradicional
               </Badge>
             </div>
@@ -220,14 +238,14 @@ const ResultadosModernos = ({ consorcio, financiamento, comparacao }) => {
               icon={TrendingUp}
             />
 
-            <Separator className="my-4 border-gray-700" />
+            <Separator className="my-4" />
 
-            <div className="bg-gradient-to-r from-blue-600/20 to-blue-500/20 border border-blue-500/40 rounded-xl p-4 backdrop-blur-sm">
+            <div className="bg-blue-100 border-2 border-blue-400 rounded-xl p-4">
               <div className="flex items-center justify-between">
-                <span className="text-base sm:text-lg font-bold text-blue-300">
+                <span className="text-base sm:text-lg font-bold text-blue-900">
                   Custo Total
                 </span>
-                <span className="text-xl sm:text-2xl font-bold text-blue-400">
+                <span className="text-xl sm:text-2xl font-bold text-blue-700">
                   {formatarMoeda(financiamento.custoTotal)}
                 </span>
               </div>
