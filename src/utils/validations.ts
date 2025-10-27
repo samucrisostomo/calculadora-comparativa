@@ -36,10 +36,6 @@ export const validarConsorcio = (
     erros.valorBem = "Valor do bem é obrigatório e deve ser maior que zero";
   } else if (data.valorBem < 1000) {
     erros.valorBem = "Valor do bem deve ser no mínimo R$ 1.000,00";
-  } else if (data.valorBem > config.valorMaximoSugerido) {
-    erros.valorBem = `Valor sugerido máximo é R$ ${config.valorMaximoSugerido.toLocaleString(
-      "pt-BR"
-    )}`;
   }
 
   // Lance
@@ -58,8 +54,6 @@ export const validarConsorcio = (
     erros.prazoMeses = "Prazo é obrigatório e deve ser maior que zero";
   } else if (data.prazoMeses < 12) {
     erros.prazoMeses = "Prazo mínimo é de 12 meses";
-  } else if (data.prazoMeses > config.prazoMaximoMeses) {
-    erros.prazoMeses = `Prazo máximo é de ${config.prazoMaximoMeses} meses`;
   }
 
   // Taxa Administrativa
@@ -92,10 +86,6 @@ export const validarFinanciamento = (
     erros.valorBem = "Valor do bem é obrigatório e deve ser maior que zero";
   } else if (data.valorBem < 1000) {
     erros.valorBem = "Valor do bem deve ser no mínimo R$ 1.000,00";
-  } else if (data.valorBem > config.valorMaximoSugerido) {
-    erros.valorBem = `Valor sugerido máximo é R$ ${config.valorMaximoSugerido.toLocaleString(
-      "pt-BR"
-    )}`;
   }
 
   // Entrada
@@ -114,8 +104,6 @@ export const validarFinanciamento = (
     erros.prazoMeses = "Prazo é obrigatório e deve ser maior que zero";
   } else if (data.prazoMeses < 12) {
     erros.prazoMeses = "Prazo mínimo é de 12 meses";
-  } else if (data.prazoMeses > config.prazoMaximoMeses) {
-    erros.prazoMeses = `Prazo máximo é de ${config.prazoMaximoMeses} meses`;
   }
 
   // Juros Anuais

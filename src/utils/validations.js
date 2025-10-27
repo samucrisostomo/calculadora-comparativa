@@ -16,10 +16,6 @@ export const validarConsorcio = (data, tipoBem = "carro") => {
     erros.valorBem = "Valor do bem é obrigatório e deve ser maior que zero";
   } else if (data.valorBem < 1000) {
     erros.valorBem = "Valor do bem deve ser no mínimo R$ 1.000,00";
-  } else if (data.valorBem > config.valorMaximoSugerido) {
-    erros.valorBem = `Valor sugerido máximo é R$ ${config.valorMaximoSugerido.toLocaleString(
-      "pt-BR"
-    )}`;
   }
 
   // Lance
@@ -34,15 +30,15 @@ export const validarConsorcio = (data, tipoBem = "carro") => {
     erros.prazoMeses = "Prazo é obrigatório e deve ser maior que zero";
   } else if (data.prazoMeses < 12) {
     erros.prazoMeses = "Prazo mínimo é de 12 meses";
-  } else if (data.prazoMeses > config.prazoMaximoMeses) {
-    erros.prazoMeses = `Prazo máximo é de ${config.prazoMaximoMeses} meses`;
   }
 
   // Taxa Administrativa
   if (!data.taxaAdministrativa || data.taxaAdministrativa < 0) {
-    erros.taxaAdministrativa = "Taxa administrativa é obrigatória e não pode ser negativa";
+    erros.taxaAdministrativa =
+      "Taxa administrativa é obrigatória e não pode ser negativa";
   } else if (data.taxaAdministrativa > 100) {
-    erros.taxaAdministrativa = "Taxa administrativa não pode ser maior que 100%";
+    erros.taxaAdministrativa =
+      "Taxa administrativa não pode ser maior que 100%";
   }
 
   return erros;
@@ -64,10 +60,6 @@ export const validarFinanciamento = (data, tipoBem = "carro") => {
     erros.valorBem = "Valor do bem é obrigatório e deve ser maior que zero";
   } else if (data.valorBem < 1000) {
     erros.valorBem = "Valor do bem deve ser no mínimo R$ 1.000,00";
-  } else if (data.valorBem > config.valorMaximoSugerido) {
-    erros.valorBem = `Valor sugerido máximo é R$ ${config.valorMaximoSugerido.toLocaleString(
-      "pt-BR"
-    )}`;
   }
 
   // Entrada
@@ -82,13 +74,12 @@ export const validarFinanciamento = (data, tipoBem = "carro") => {
     erros.prazoMeses = "Prazo é obrigatório e deve ser maior que zero";
   } else if (data.prazoMeses < 12) {
     erros.prazoMeses = "Prazo mínimo é de 12 meses";
-  } else if (data.prazoMeses > config.prazoMaximoMeses) {
-    erros.prazoMeses = `Prazo máximo é de ${config.prazoMaximoMeses} meses`;
   }
 
   // Juros Anuais
   if (data.jurosAnuais === undefined || data.jurosAnuais < 0) {
-    erros.jurosAnuais = "Juros anuais são obrigatórios e não podem ser negativos";
+    erros.jurosAnuais =
+      "Juros anuais são obrigatórios e não podem ser negativos";
   } else if (data.jurosAnuais > 50) {
     erros.jurosAnuais = "Juros anuais não podem ser maiores que 50%";
   }
