@@ -59,12 +59,17 @@ const FormularioModerno: React.FC<FormularioModernoProps> = ({
     onChange({ ...dados, [campo]: parseFloat(valor) || 0 });
   };
 
+  const formatarValorExibicao = (valor: number | undefined): string => {
+    if (!valor || valor === 0) return "";
+    return valor.toLocaleString("pt-BR");
+  };
+
   const campos: CampoFormulario[] =
     tipo === "consorcio"
       ? [
           {
             id: "valorBem",
-            label: config.labels.valorBem,
+            label: `${config.labels.valorBem} (R$)`,
             placeholder: config.labels.placeholderValor,
             icon: DollarSign,
             info: "Valor total do bem que deseja adquirir",
@@ -72,7 +77,7 @@ const FormularioModerno: React.FC<FormularioModernoProps> = ({
           },
           {
             id: "lance",
-            label: "Lance",
+            label: "Lance (R$)",
             placeholder: "Ex: 5.000 (opcional)",
             icon: TrendingUp,
             info: "Valor de lance para antecipar contemplação",
@@ -101,7 +106,7 @@ const FormularioModerno: React.FC<FormularioModernoProps> = ({
       : [
           {
             id: "valorBem",
-            label: config.labels.valorBem,
+            label: `${config.labels.valorBem} (R$)`,
             placeholder: config.labels.placeholderValor,
             icon: DollarSign,
             info: "Valor total do bem que deseja adquirir",
@@ -109,7 +114,7 @@ const FormularioModerno: React.FC<FormularioModernoProps> = ({
           },
           {
             id: "entrada",
-            label: "Entrada",
+            label: "Entrada (R$)",
             placeholder: `Ex: ${tipoBem === "carro" ? "5.000" : "100.000"}`,
             icon: DollarSign,
             info: "Valor da entrada inicial",
@@ -205,9 +210,23 @@ const FormularioModerno: React.FC<FormularioModernoProps> = ({
                 ) : null}
                 <Input
                   id={campo.id}
-                  type="number"
-                  value={(dados as any)[campo.id] || ""}
-                  onChange={(e) => handleChange(campo.id, e.target.value)}
+                  type={
+                    campo.id.includes("valor") ||
+                    campo.id === "entrada" ||
+                    campo.id === "lance"
+                      ? "text"
+                      : "number"
+                  }
+                  value={
+                    campo.id.includes("valor") ||
+                    campo.id === "entrada" ||
+                    campo.id === "lance"
+                      ? formatarValorExibicao((dados as any)[campo.id])
+                      : (dados as any)[campo.id] || ""
+                  }
+                  onChange={(e) =>
+                    handleChange(campo.id, e.target.value.replace(/\./g, ""))
+                  }
                   placeholder={campo.placeholder}
                   className={`${
                     campo.id.includes("valor") ||
