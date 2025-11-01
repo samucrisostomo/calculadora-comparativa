@@ -16,7 +16,7 @@ const TipoSelectorModerno = ({ tipoBem, setTipoBem }) => {
             className="text-base sm:text-lg flex items-center gap-2 data-[state=active]:bg-blue-600 data-[state=active]:text-white transition-all duration-300 data-[state=active]:scale-105 hover:scale-[1.02]"
           >
             <Car className="w-5 h-5 transition-transform duration-300 group-hover:rotate-12" />
-            <span>Carro</span>
+            <span>Autos</span>
           </TabsTrigger>
           <TabsTrigger
             value="imovel"

@@ -161,12 +161,12 @@ function App() {
 
   const infoCards: InfoCard[] = [
     {
-      title: "Sem Juros Abusivos",
+      title: "Sem Juros",
       desc: "No consórcio você não paga juros compostos. As taxas são transparentes e muito menores.",
     },
     {
-      title: "Parcelas Fixas",
-      desc: "As parcelas permanecem as mesmas do início ao fim, facilitando o planejamento financeiro.",
+      title: "Reajuste Anual",
+      desc: "Permite programação financeira e antecipação de parcelas antes do reajuste",
     },
     {
       title: "Economia Real",

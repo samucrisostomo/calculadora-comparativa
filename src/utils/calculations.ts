@@ -49,13 +49,17 @@ export const calcularConsorcio = (
   taxaAdministrativa: number,
   tipoBem: TipoBem = "carro"
 ): ResultadoConsorcio => {
-  // Aplica a taxa administrativa sobre o valor do bem
+  // 1. Aplica a taxa administrativa sobre o valor do bem
   const valorComTaxa = valorBem * (1 + taxaAdministrativa / 100);
 
-  // Parcela mensal: (valor com taxa) dividido pelo prazo
-  const parcelaMensal = valorComTaxa / prazoMeses;
+  // 2. Deduz o lance do valor com taxas para calcular o valor a parcelar
+  const valorAposLance = valorComTaxa - lance;
 
-  // Custo total: (Parcela × Prazo) + Lance
+  // 3. Parcela mensal: (valor após lance) dividido pelo prazo
+  const parcelaMensal = valorAposLance / prazoMeses;
+
+  // 4. Custo total: (Parcela × Prazo) + Lance
+  // Nota: parcelas + lance = valorComTaxa (mantém consistência matemática)
   const custoTotal = parcelaMensal * prazoMeses + lance;
 
   return {

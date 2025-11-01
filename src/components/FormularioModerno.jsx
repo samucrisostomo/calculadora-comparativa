@@ -269,7 +269,7 @@ const FormularioModerno = ({
             {tipo === "consorcio" ? (
               <>
                 <li>• Taxa aplicada sobre o valor total do bem</li>
-                <li>• Parcelas fixas durante todo o período</li>
+                <li>• Reajuste anual</li>
                 <li>• Lance reduz o valor das parcelas mensais</li>
               </>
             ) : (

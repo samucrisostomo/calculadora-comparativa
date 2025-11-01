@@ -167,7 +167,7 @@ const FormularioModerno: React.FC<FormularioModernoProps> = ({
               </CardTitle>
               <CardDescription className="text-gray-300">
                 {tipo === "consorcio"
-                  ? "Sem juros, parcelas fixas"
+                  ? "Sem juros, com reajuste anual"
                   : "Juros compostos (Price), parcelas fixas"}
               </CardDescription>
             </div>
@@ -295,7 +295,7 @@ const FormularioModerno: React.FC<FormularioModernoProps> = ({
             {tipo === "consorcio" ? (
               <>
                 <li>• Taxa aplicada sobre o valor total do bem</li>
-                <li>• Parcelas fixas durante todo o período</li>
+                <li>• Reajuste anual, permitindo programação financeira e antecipação de parcelas antes do reajuste</li>
                 <li>• Lance reduz o valor das parcelas mensais</li>
               </>
             ) : (
