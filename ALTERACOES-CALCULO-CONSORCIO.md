@@ -155,6 +155,14 @@ Todos os componentes que consomem o resultado de `calcularConsorcio` automaticam
 
 ---
 
+## 🖨️ Atualização do PDF (01/11/2025)
+
+- Inclusão do campo **Valor da Taxa** no relatório gerado, refletindo o montante em reais da taxa administrativa.
+- Ajuste da linha **Taxa Administrativa** para exibir percentual e valor em reais, alinhando o PDF ao comportamento da tela.
+- Revisão gramatical completa do conteúdo textual do PDF (acentuação, concordância e mensagens explicativas).
+
+---
+
 ## ✅ Validação
 
 Foram executados testes com 3 cenários diferentes:

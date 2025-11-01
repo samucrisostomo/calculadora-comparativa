@@ -66,8 +66,8 @@ const BotaoGerarPDF: React.FC<BotaoGerarPDFProps> = ({
       pdf.setFont("helvetica", "normal");
       pdf.setTextColor(100, 100, 100);
       pdf.text(
-        `Consorcio vs Financiamento - ${
-          tipoBem === "carro" ? "Carro" : "Imovel"
+        `Consórcio vs Financiamento - ${
+          tipoBem === "carro" ? "Carro" : "Imóvel"
         }`,
         pageWidth / 2,
         currentY,
@@ -95,12 +95,17 @@ const BotaoGerarPDF: React.FC<BotaoGerarPDFProps> = ({
       pdf.setFontSize(14);
       pdf.setFont("helvetica", "bold");
       pdf.setTextColor(34, 197, 94);
-      pdf.text("Consorcio", 20, currentY);
+      pdf.text("Consórcio", 20, currentY);
 
       currentY += 8;
       pdf.setFontSize(10);
       pdf.setTextColor(0, 0, 0);
       pdf.setFont("helvetica", "normal");
+
+      const valorTaxaAdministrativa = Math.max(
+        consorcio.valorComTaxa - consorcio.valorBem,
+        0
+      );
 
       const dadosConsorcio = [
         ["Valor do Bem", formatarMoeda(consorcio.valorBem)],
@@ -109,8 +114,11 @@ const BotaoGerarPDF: React.FC<BotaoGerarPDFProps> = ({
         ["Prazo", `${consorcio.prazoMeses} meses`],
         [
           "Taxa Administrativa",
-          formatarPercentual(consorcio.taxaAdministrativaPercentual || 15),
+          `${formatarPercentual(consorcio.taxaAdministrativaPercentual)} (${formatarMoeda(
+            valorTaxaAdministrativa
+          )})`,
         ],
+        ["Valor da Taxa", formatarMoeda(valorTaxaAdministrativa)],
       ];
 
       dadosConsorcio.forEach(([label, value]) => {
@@ -209,7 +217,7 @@ const BotaoGerarPDF: React.FC<BotaoGerarPDFProps> = ({
         pdf.setFontSize(14);
         pdf.setFont("helvetica", "bold");
         pdf.setTextColor(34, 197, 94);
-        pdf.text("Economia com Consorcio", pageWidth / 2, currentY, {
+        pdf.text("Economia com consórcio", pageWidth / 2, currentY, {
           align: "center",
         });
         currentY += 6;
@@ -233,9 +241,9 @@ const BotaoGerarPDF: React.FC<BotaoGerarPDFProps> = ({
         pdf.setTextColor(0, 0, 0);
         pdf.setFont("helvetica", "normal");
         pdf.text(
-          `Diferenca nas parcelas: ${formatarMoeda(
+          `Diferença nas parcelas: ${formatarMoeda(
             Math.abs(comparacao.diferencaParcela)
-          )}/mes`,
+          )}/mês`,
           pageWidth / 2,
           currentY,
           { align: "center" }
@@ -244,7 +252,7 @@ const BotaoGerarPDF: React.FC<BotaoGerarPDFProps> = ({
         pdf.setFontSize(14);
         pdf.setFont("helvetica", "bold");
         pdf.setTextColor(59, 130, 246);
-        pdf.text("Consorcio mais vantajoso", pageWidth / 2, currentY, {
+        pdf.text("Financiamento mais vantajoso", pageWidth / 2, currentY, {
           align: "center",
         });
         currentY += 6;
@@ -260,7 +268,7 @@ const BotaoGerarPDF: React.FC<BotaoGerarPDFProps> = ({
 
         pdf.setFontSize(10);
         pdf.text(
-          `Consorcio é  ${formatarPercentual(
+          `Financiamento é ${formatarPercentual(
             Math.abs(comparacao.percentualEconomia)
           )} mais barato`,
           pageWidth / 2,
@@ -276,7 +284,7 @@ const BotaoGerarPDF: React.FC<BotaoGerarPDFProps> = ({
       pdf.setFontSize(12);
       pdf.setFont("helvetica", "bold");
       pdf.setTextColor(0, 0, 0);
-      pdf.text("Principais Vantagens do Consorcio:", 20, currentY);
+      pdf.text("Principais vantagens do consórcio:", 20, currentY);
       currentY += 8;
 
       pdf.setFontSize(9);
@@ -284,11 +292,11 @@ const BotaoGerarPDF: React.FC<BotaoGerarPDFProps> = ({
 
       const vantagens = [
         "Sem juros compostos: apenas taxas administrativas transparentes",
-        "Parcelas fixas durante todo o periodo",
-        "Possibilidade de dar lances para antecipar a contemplacao",
-        "Menor custo total em comparacao ao financiamento tradicional",
-        "Flexibilidade para usar o credito quando for contemplado",
-        "Nao compromete o limite de financiamento bancario",
+        "Parcelas fixas durante todo o período",
+        "Possibilidade de dar lances para antecipar a contemplação",
+        "Menor custo total em comparação ao financiamento tradicional",
+        "Flexibilidade para usar o crédito quando for contemplado",
+        "Não compromete o limite de financiamento bancário",
       ];
 
       vantagens.forEach((vantagem) => {
@@ -309,14 +317,14 @@ const BotaoGerarPDF: React.FC<BotaoGerarPDFProps> = ({
       pdf.setFont("helvetica", "italic");
       pdf.setTextColor(128, 128, 128);
       pdf.text(
-        "Este relatorio e uma simulacao baseada nas informacoes fornecidas.",
+        "Este relatório é uma simulação baseada nas informações fornecidas.",
         pageWidth / 2,
         currentY,
         { align: "center" }
       );
       currentY += 4;
       pdf.text(
-        "Consulte um especialista financeiro para mais informacoes.",
+        "Consulte um especialista financeiro para mais informações.",
         pageWidth / 2,
         currentY,
         { align: "center" }
@@ -357,12 +365,12 @@ const BotaoGerarPDF: React.FC<BotaoGerarPDFProps> = ({
         ) : (
           <>
             <Download className="mr-2 h-5 w-5" />
-            Baixar Relatorio PDF
+            Baixar relatório PDF
           </>
         )}
       </Button>
       <p className="text-sm text-gray-400 text-center max-w-md px-4">
-        Gere um relatorio completo com todos os detalhes da comparacao para
+        Gere um relatório completo com todos os detalhes da comparação para
         guardar ou compartilhar
       </p>
     </div>
