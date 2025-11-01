@@ -131,10 +131,10 @@ const FormularioModerno: React.FC<FormularioModernoProps> = ({
           },
           {
             id: "jurosAnuais",
-            label: "Juros Anuais (%)",
+            label: "Juros Totais (%)",
             placeholder: "Ex: 12",
             icon: TrendingUp,
-            info: "Taxa de juros anual que será convertida para juros compostos mensais (Sistema Price)",
+            info: "Taxa de juros total aplicada sobre o valor financiado durante todo o período",
             required: true,
             inputMode: "decimal",
             suffix: "%",

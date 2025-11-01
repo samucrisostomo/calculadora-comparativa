@@ -72,6 +72,11 @@ const ResultadosModernos: React.FC<ResultadosModernosProps> = ({
     return null;
   }
 
+  const valorTaxaAdministrativa = Math.max(
+    consorcio.valorComTaxa - consorcio.valorBem,
+    0
+  );
+
   return (
     <div id="resultados" className="space-y-6 sm:space-y-8 animate-fade-in">
       <div className="text-center space-y-2">
@@ -123,7 +128,7 @@ const ResultadosModernos: React.FC<ResultadosModernosProps> = ({
             <div className="mt-4 bg-gradient-to-r from-green-100 to-green-50 rounded-xl p-4 text-center">
               <p className="text-sm sm:text-base text-green-800 font-semibold flex items-center justify-center gap-2">
                 <ArrowDown className="w-5 h-5" />
-                Parcela mensal{" "}
+                Parcela samuca{" "}
                 {formatarMoeda(Math.abs(comparacao.diferencaParcela))} menor
               </p>
             </div>
@@ -170,8 +175,15 @@ const ResultadosModernos: React.FC<ResultadosModernosProps> = ({
             />
             <ItemResultado
               label="Taxa Administrativa"
-              valor={formatarPercentual(consorcio.taxaAdministrativaPercentual)}
+              valor={`${formatarPercentual(
+                consorcio.taxaAdministrativaPercentual
+              )} (${formatarMoeda(valorTaxaAdministrativa)})`}
               icon={TrendingUp}
+            />
+            <ItemResultado
+              label="Valor Taxa"
+              valor={formatarMoeda(valorTaxaAdministrativa)}
+              icon={Sparkles}
             />
 
             <Separator className="my-4" />
@@ -228,7 +240,7 @@ const ResultadosModernos: React.FC<ResultadosModernosProps> = ({
               icon={Calendar}
             />
             <ItemResultado
-              label="Juros Anuais"
+              label="Juros"
               valor={formatarPercentual(financiamento.jurosAnuaisPercentual)}
               icon={TrendingUp}
             />

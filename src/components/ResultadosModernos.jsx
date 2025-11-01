@@ -44,6 +44,11 @@ const ResultadosModernos = ({ consorcio, financiamento, comparacao }) => {
     </div>
   );
 
+  const valorTaxaAdministrativa = Math.max(
+    (consorcio?.valorComTaxa || 0) - (consorcio?.valorBem || 0),
+    0
+  );
+
   return (
     <div id="resultados" className="space-y-6 sm:space-y-8 animate-fade-in">
       <div className="text-center space-y-2">
@@ -149,6 +154,11 @@ const ResultadosModernos = ({ consorcio, financiamento, comparacao }) => {
               label="Taxa Administrativa"
               valor={formatarPercentual(consorcio.taxaAdministrativaPercentual)}
               icon={TrendingUp}
+            />
+            <ItemResultado
+              label="Valor Taxa"
+              valor={formatarMoeda(valorTaxaAdministrativa)}
+              icon={Sparkles}
             />
 
             <Separator className="my-4 border-gray-700" />
