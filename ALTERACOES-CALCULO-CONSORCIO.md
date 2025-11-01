@@ -67,17 +67,20 @@ const custoTotal = parcelaMensal * prazoMeses + lance;
 ### Exemplo 1: Consórcio de R$ 200.000
 
 **Dados de entrada:**
+
 - Valor do bem: R$ 200.000,00
 - Taxa administrativa: 15%
 - Lance: R$ 40.000,00
 - Prazo: 100 meses
 
 **Cálculo ANTERIOR (incorreto):**
+
 - Valor com taxa: R$ 230.000,00
 - Parcela mensal: R$ 230.000 ÷ 100 = **R$ 2.300,00** ❌
 - Custo total: (R$ 2.300 × 100) + R$ 40.000 = R$ 270.000,00 ❌
 
 **Cálculo NOVO (correto):**
+
 - Valor com taxa: R$ 230.000,00
 - Valor após lance: R$ 230.000 - R$ 40.000 = R$ 190.000,00
 - Parcela mensal: R$ 190.000 ÷ 100 = **R$ 1.900,00** ✅
@@ -90,17 +93,20 @@ const custoTotal = parcelaMensal * prazoMeses + lance;
 ### Exemplo 2: Consórcio de R$ 50.000
 
 **Dados de entrada:**
+
 - Valor do bem: R$ 50.000,00
 - Taxa administrativa: 15%
 - Lance: R$ 5.000,00
 - Prazo: 60 meses
 
 **Cálculo ANTERIOR (incorreto):**
+
 - Valor com taxa: R$ 57.500,00
 - Parcela mensal: R$ 57.500 ÷ 60 = **R$ 958,33** ❌
 - Custo total: (R$ 958,33 × 60) + R$ 5.000 = R$ 62.500,00 ❌
 
 **Cálculo NOVO (correto):**
+
 - Valor com taxa: R$ 57.500,00
 - Valor após lance: R$ 57.500 - R$ 5.000 = R$ 52.500,00
 - Parcela mensal: R$ 52.500 ÷ 60 = **R$ 875,00** ✅
@@ -113,12 +119,14 @@ const custoTotal = parcelaMensal * prazoMeses + lance;
 ### Exemplo 3: Consórcio sem lance
 
 **Dados de entrada:**
+
 - Valor do bem: R$ 50.000,00
 - Taxa administrativa: 15%
 - Lance: R$ 0,00
 - Prazo: 60 meses
 
 **Resultado (em ambos os casos):**
+
 - Valor com taxa: R$ 57.500,00
 - Valor após lance: R$ 57.500,00 (sem dedução)
 - Parcela mensal: **R$ 958,33**
@@ -182,4 +190,3 @@ Se for identificada a necessidade de ajustes adicionais:
 
 **Documentação criada por:** IA Assistant  
 **Revisado e validado em:** 01/11/2025
-
