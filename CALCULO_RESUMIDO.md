@@ -1,4 +1,4 @@
-# Cálculo Resumido - Consórcio vs Financiamento
+# Cálculo Resumido - Consórcio e Financiamento
 
 ## 🎯 Diferença Principal
 

@@ -1,4 +1,4 @@
-# Calculadora Comparativa - Consórcio vs Financiamento
+# Calculadora Comparativa - Consórcio e Financiamento
 
 Uma aplicação web moderna e responsiva para comparação entre consórcio e financiamento, desenvolvida com React e Tailwind CSS. A ferramenta oferece cálculos em tempo real, visualizações gráficas e geração de relatórios em PDF.
 

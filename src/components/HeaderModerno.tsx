@@ -21,7 +21,7 @@ const HeaderModerno: React.FC = () => {
             </h1>
             <p className="text-sm sm:text-base text-white/80 max-w-2xl">
               Compare{" "}
-              <span className="font-semibold text-green-300">Consórcio</span> vs{" "}
+              <span className="font-semibold text-green-300">Consórcio</span> e{" "}
               <span className="font-semibold text-blue-300">Financiamento</span>{" "}
               e escolha a melhor opção financeira
             </p>

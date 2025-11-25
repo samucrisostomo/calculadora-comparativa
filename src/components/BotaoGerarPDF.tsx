@@ -66,7 +66,7 @@ const BotaoGerarPDF: React.FC<BotaoGerarPDFProps> = ({
       pdf.setFont("helvetica", "normal");
       pdf.setTextColor(100, 100, 100);
       pdf.text(
-        `Consórcio vs Financiamento - ${
+        `Consórcio e Financiamento - ${
           tipoBem === "carro" ? "Carro" : "Imóvel"
         }`,
         pageWidth / 2,
@@ -111,7 +111,7 @@ const BotaoGerarPDF: React.FC<BotaoGerarPDFProps> = ({
         ["Valor do Bem", formatarMoeda(consorcio.valorBem)],
         ["Lance", formatarMoeda(consorcio.lance)],
         ["Parcela Mensal", formatarMoeda(consorcio.parcelaMensal)],
-        ["Prazo", `${consorcio.prazoMeses} meses`],
+        ["Taxa Adm. Antecipada", `${consorcio.prazoMeses} meses`],
         [
           "Taxa Administrativa",
           `${formatarPercentual(
