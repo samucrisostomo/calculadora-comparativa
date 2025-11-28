@@ -174,7 +174,7 @@ const ResultadosModernos: React.FC<ResultadosModernosProps> = ({
               icon={Calendar}
             />
             <ItemResultado
-              label="Taxa Administrativa"
+              label="Taxa Administrativa Antecipada"
               valor={`${formatarPercentual(
                 consorcio.taxaAdministrativaPercentual
               )} (${formatarMoeda(valorTaxaAdministrativa)})`}

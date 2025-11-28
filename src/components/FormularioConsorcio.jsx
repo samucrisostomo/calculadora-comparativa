@@ -100,7 +100,7 @@ const FormularioConsorcio = ({ dados, onChange, erros = {} }) => {
         {/* Taxa Administrativa */}
         <div>
           <label className="block text-sm sm:text-base font-semibold text-gray-700 mb-2">
-            Taxa Administrativa (%) *
+            Taxa Administrativa Antecipada (%) *
             <Tooltip text="Taxa percentual aplicada sobre o valor do bem durante todo o período" />
           </label>
           <div className="relative">

@@ -68,7 +68,7 @@ const FormularioModerno = ({
           },
           {
             id: "taxaAdministrativa",
-            label: "Taxa Administrativa (%)",
+            label: "Taxa Administrativa Antecipada (%)",
             placeholder: "Ex: 15",
             icon: TrendingUp,
             info: "Taxa percentual aplicada sobre o valor do bem durante todo o período",

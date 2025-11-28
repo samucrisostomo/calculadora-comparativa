@@ -151,7 +151,7 @@ const ResultadosModernos = ({ consorcio, financiamento, comparacao }) => {
               icon={Calendar}
             />
             <ItemResultado
-              label="Taxa Administrativa"
+              label="Taxa Administrativa Antecipada"
               valor={formatarPercentual(consorcio.taxaAdministrativaPercentual)}
               icon={TrendingUp}
             />
