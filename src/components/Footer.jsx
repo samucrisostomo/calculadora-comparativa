@@ -36,7 +36,8 @@ const Footer = () => {
                 <span className="text-green-400">✓</span> Sem juros
               </li>
               <li className="flex items-center gap-2">
-                <span className="text-green-400">✓</span> Parcelas fixas
+                <span className="text-green-400">✓</span> Reajuste a cada 12 meses
+
               </li>
               <li className="flex items-center gap-2">
                 <span className="text-green-400">✓</span> Menor custo total
