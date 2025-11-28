@@ -165,7 +165,7 @@ function App() {
       desc: "No consórcio você não paga juros compostos. As taxas são transparentes e muito menores.",
     },
     {
-      title: "Reajuste Anual",
+      title: "Reajuste a cada 12 meses",
       desc: "Permite programação financeira e antecipação de parcelas antes do reajuste",
     },
     {

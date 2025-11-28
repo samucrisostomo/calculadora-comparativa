@@ -51,17 +51,58 @@ const BotaoGerarPDF: React.FC<BotaoGerarPDFProps> = ({
     try {
       const pdf = new jsPDF("p", "mm", "a4");
       const pageWidth = pdf.internal.pageSize.getWidth();
-      let currentY = 20;
+      let currentY = 10;
 
-      // ========== CABEÇALHO ==========
-      pdf.setFontSize(20);
-      pdf.setFont("helvetica", "bold");
-      pdf.setTextColor(37, 99, 235); // Azul
-      pdf.text("Calculadora Comparativa", pageWidth / 2, currentY, {
-        align: "center",
-      });
+      // ========== CABEÇALHO COM LOGO ==========
+      // Adicionar logo
+      try {
+        const response = await fetch("/LOGO AZUL.png");
+        if (response.ok) {
+          const blob = await response.blob();
+          const imgUrl = URL.createObjectURL(blob);
+          const img = new Image();
 
-      currentY += 8;
+          await new Promise((resolve, reject) => {
+            img.onload = () => {
+              try {
+                // Logo com largura de 60mm, altura proporcional
+                const logoWidth = 40;
+                const logoHeight = (img.height / img.width) * logoWidth;
+                const logoX = (pageWidth - logoWidth) / 2;
+                pdf.addImage(
+                  img,
+                  "PNG",
+                  logoX,
+                  currentY,
+                  logoWidth,
+                  logoHeight
+                );
+                URL.revokeObjectURL(imgUrl);
+                currentY += logoHeight + 3;
+              } catch (error) {
+                console.warn("Erro ao adicionar logo:", error);
+                URL.revokeObjectURL(imgUrl);
+                currentY += 20;
+              }
+              resolve(null);
+            };
+            img.onerror = () => {
+              console.warn("Erro ao carregar logo");
+              URL.revokeObjectURL(imgUrl);
+              currentY += 20;
+              resolve(null);
+            };
+            img.src = imgUrl;
+          });
+        } else {
+          currentY += 20;
+        }
+      } catch (error) {
+        console.warn("Erro ao carregar logo:", error);
+        currentY += 18;
+      }
+
+      currentY += 1;
       pdf.setFontSize(12);
       pdf.setFont("helvetica", "normal");
       pdf.setTextColor(100, 100, 100);
@@ -80,28 +121,19 @@ const BotaoGerarPDF: React.FC<BotaoGerarPDFProps> = ({
         align: "center",
       });
 
-      currentY = checkPageBreak(pdf, currentY, 60);
-      currentY += 15;
+      currentY = checkPageBreak(pdf, currentY, 80);
+      currentY += 12;
 
-      // ========== SEÇÃO CONSÓRCIO ==========
-      pdf.setFillColor(240, 253, 244); // Verde claro
-      pdf.roundedRect(15, currentY, pageWidth - 30, 40, 3, 3, "F");
+      // ========== CAIXAS LADO A LADO ==========
+      const margemLateral = 15;
+      const espacoEntreCaixas = 5;
+      const larguraCaixa =
+        (pageWidth - 2 * margemLateral - espacoEntreCaixas) / 2;
+      const xConsorcio = margemLateral;
+      const xFinanciamento = margemLateral + larguraCaixa + espacoEntreCaixas;
+      const startY = currentY;
 
-      pdf.setDrawColor(34, 197, 94); // Verde
-      pdf.setLineWidth(0.5);
-      pdf.roundedRect(15, currentY, pageWidth - 30, 40, 3, 3, "D");
-
-      currentY += 5;
-      pdf.setFontSize(14);
-      pdf.setFont("helvetica", "bold");
-      pdf.setTextColor(34, 197, 94);
-      pdf.text("Consórcio", 20, currentY);
-
-      currentY += 8;
-      pdf.setFontSize(10);
-      pdf.setTextColor(0, 0, 0);
-      pdf.setFont("helvetica", "normal");
-
+      // Calcular altura necessária para ambas as caixas
       const valorTaxaAdministrativa = Math.max(
         consorcio.valorComTaxa - consorcio.valorBem,
         0
@@ -111,7 +143,7 @@ const BotaoGerarPDF: React.FC<BotaoGerarPDFProps> = ({
         ["Valor do Bem", formatarMoeda(consorcio.valorBem)],
         ["Lance", formatarMoeda(consorcio.lance)],
         ["Parcela Mensal", formatarMoeda(consorcio.parcelaMensal)],
-        ["Taxa Adm. Antecipada", `${consorcio.prazoMeses} meses`],
+        ["Prazo", `${consorcio.prazoMeses} meses`],
         [
           "Taxa Administrativa",
           `${formatarPercentual(
@@ -120,51 +152,6 @@ const BotaoGerarPDF: React.FC<BotaoGerarPDFProps> = ({
         ],
         ["Valor da Taxa", formatarMoeda(valorTaxaAdministrativa)],
       ];
-
-      dadosConsorcio.forEach(([label, value]) => {
-        pdf.setFont("helvetica", "normal");
-        pdf.text(label + ":", 25, currentY);
-        pdf.setFont("helvetica", "bold");
-        pdf.text(value, pageWidth - 25, currentY, { align: "right" });
-        currentY += 6;
-      });
-
-      // Custo Total Consórcio
-      pdf.setDrawColor(34, 197, 94);
-      pdf.setLineWidth(0.5);
-      pdf.line(25, currentY - 2, pageWidth - 25, currentY - 2);
-      currentY += 4;
-
-      pdf.setFont("helvetica", "bold");
-      pdf.setFontSize(11);
-      pdf.setTextColor(34, 197, 94);
-      pdf.text("Custo Total:", 25, currentY);
-      pdf.setFontSize(12);
-      pdf.text(formatarMoeda(consorcio.custoTotal), pageWidth - 25, currentY, {
-        align: "right",
-      });
-
-      currentY = checkPageBreak(pdf, currentY, 60);
-      currentY += 20;
-
-      // ========== SEÇÃO FINANCIAMENTO ==========
-      pdf.setFillColor(239, 246, 255); // Azul claro
-      pdf.roundedRect(15, currentY, pageWidth - 30, 45, 3, 3, "F");
-
-      pdf.setDrawColor(59, 130, 246); // Azul
-      pdf.setLineWidth(0.5);
-      pdf.roundedRect(15, currentY, pageWidth - 30, 45, 3, 3, "D");
-
-      currentY += 5;
-      pdf.setFontSize(14);
-      pdf.setFont("helvetica", "bold");
-      pdf.setTextColor(59, 130, 246);
-      pdf.text("Financiamento", 20, currentY);
-
-      currentY += 8;
-      pdf.setFontSize(10);
-      pdf.setTextColor(0, 0, 0);
-      pdf.setFont("helvetica", "normal");
 
       const dadosFinanciamento = [
         ["Valor do Bem", formatarMoeda(financiamento.valorBem)],
@@ -175,36 +162,153 @@ const BotaoGerarPDF: React.FC<BotaoGerarPDFProps> = ({
           "Juros Anuais",
           formatarPercentual(financiamento.jurosAnuaisPercentual || 12),
         ],
-        ["Valor dos Juros", formatarMoeda(financiamento.totalJuros || 0)],
+        ["Total de Juros", formatarMoeda(financiamento.totalJuros || 0)],
       ];
 
-      dadosFinanciamento.forEach(([label, value]) => {
+      // Calcular altura necessária (título + espaçamento + dados + linha + custo total)
+      const alturaTitulo = 5;
+      const espacoAposTitulo = 8;
+      const alturaLinhaDados = 6;
+      const alturaLinhaSeparadora = 4;
+      const alturaCustoTotal = 6;
+      const alturaConsorcio =
+        alturaTitulo +
+        espacoAposTitulo +
+        dadosConsorcio.length * alturaLinhaDados +
+        alturaLinhaSeparadora +
+        alturaCustoTotal +
+        8; // margem inferior
+      const alturaFinanciamento =
+        alturaTitulo +
+        espacoAposTitulo +
+        dadosFinanciamento.length * alturaLinhaDados +
+        alturaLinhaSeparadora +
+        alturaCustoTotal +
+        8; // margem inferior
+      const alturaCaixa = Math.max(alturaConsorcio, alturaFinanciamento);
+
+      // ========== CAIXA CONSÓRCIO (ESQUERDA) ==========
+      pdf.setFillColor(240, 253, 244); // Verde claro
+      pdf.roundedRect(xConsorcio, startY, larguraCaixa, alturaCaixa, 3, 3, "F");
+
+      pdf.setDrawColor(34, 197, 94); // Verde
+      pdf.setLineWidth(0.5);
+      pdf.roundedRect(xConsorcio, startY, larguraCaixa, alturaCaixa, 3, 3, "D");
+
+      let yConsorcio = startY + 5;
+      pdf.setFontSize(13);
+      pdf.setFont("helvetica", "bold");
+      pdf.setTextColor(34, 197, 94);
+      pdf.text("Consórcio", xConsorcio + 5, yConsorcio);
+
+      yConsorcio += 8;
+      pdf.setFontSize(9);
+      pdf.setTextColor(0, 0, 0);
+      pdf.setFont("helvetica", "normal");
+
+      dadosConsorcio.forEach(([label, value]) => {
         pdf.setFont("helvetica", "normal");
-        pdf.text(label + ":", 25, currentY);
+        pdf.text(label + ":", xConsorcio + 5, yConsorcio);
         pdf.setFont("helvetica", "bold");
-        pdf.text(value, pageWidth - 25, currentY, { align: "right" });
-        currentY += 6;
+        pdf.text(value, xConsorcio + larguraCaixa - 5, yConsorcio, {
+          align: "right",
+        });
+        yConsorcio += 5.5;
       });
 
-      // Custo Total Financiamento
-      pdf.setDrawColor(59, 130, 246);
+      // Custo Total Consórcio
+      pdf.setDrawColor(34, 197, 94);
       pdf.setLineWidth(0.5);
-      pdf.line(25, currentY - 2, pageWidth - 25, currentY - 2);
-      currentY += 4;
+      pdf.line(
+        xConsorcio + 5,
+        yConsorcio - 2,
+        xConsorcio + larguraCaixa - 5,
+        yConsorcio - 2
+      );
+      yConsorcio += 4;
 
       pdf.setFont("helvetica", "bold");
+      pdf.setFontSize(10);
+      pdf.setTextColor(34, 197, 94);
+      pdf.text("Custo Total:", xConsorcio + 5, yConsorcio);
       pdf.setFontSize(11);
-      pdf.setTextColor(59, 130, 246);
-      pdf.text("Custo Total:", 25, currentY);
-      pdf.setFontSize(12);
       pdf.text(
-        formatarMoeda(financiamento.custoTotal),
-        pageWidth - 25,
-        currentY,
+        formatarMoeda(consorcio.custoTotal),
+        xConsorcio + larguraCaixa - 5,
+        yConsorcio,
         { align: "right" }
       );
 
-      currentY = checkPageBreak(pdf, currentY, 40);
+      // ========== CAIXA FINANCIAMENTO (DIREITA) ==========
+      pdf.setFillColor(239, 246, 255); // Azul claro
+      pdf.roundedRect(
+        xFinanciamento,
+        startY,
+        larguraCaixa,
+        alturaCaixa,
+        3,
+        3,
+        "F"
+      );
+
+      pdf.setDrawColor(21, 25, 70); // Azul #151946
+      pdf.setLineWidth(0.5);
+      pdf.roundedRect(
+        xFinanciamento,
+        startY,
+        larguraCaixa,
+        alturaCaixa,
+        3,
+        3,
+        "D"
+      );
+
+      let yFinanciamento = startY + 5;
+      pdf.setFontSize(13);
+      pdf.setFont("helvetica", "bold");
+      pdf.setTextColor(21, 25, 70); // Azul #151946
+      pdf.text("Financiamento", xFinanciamento + 5, yFinanciamento);
+
+      yFinanciamento += 8;
+      pdf.setFontSize(9);
+      pdf.setTextColor(0, 0, 0);
+      pdf.setFont("helvetica", "normal");
+
+      dadosFinanciamento.forEach(([label, value]) => {
+        pdf.setFont("helvetica", "normal");
+        pdf.text(label + ":", xFinanciamento + 5, yFinanciamento);
+        pdf.setFont("helvetica", "bold");
+        pdf.text(value, xFinanciamento + larguraCaixa - 5, yFinanciamento, {
+          align: "right",
+        });
+        yFinanciamento += 5.5;
+      });
+
+      // Custo Total Financiamento
+      pdf.setDrawColor(21, 25, 70); // Azul #151946
+      pdf.setLineWidth(0.5);
+      pdf.line(
+        xFinanciamento + 5,
+        yFinanciamento - 2,
+        xFinanciamento + larguraCaixa - 5,
+        yFinanciamento - 2
+      );
+      yFinanciamento += 4;
+
+      pdf.setFont("helvetica", "bold");
+      pdf.setFontSize(10);
+      pdf.setTextColor(21, 25, 70); // Azul #151946
+      pdf.text("Custo Total:", xFinanciamento + 5, yFinanciamento);
+      pdf.setFontSize(11);
+      pdf.text(
+        formatarMoeda(financiamento.custoTotal),
+        xFinanciamento + larguraCaixa - 5,
+        yFinanciamento,
+        { align: "right" }
+      );
+
+      currentY = startY + alturaCaixa;
+      currentY = checkPageBreak(pdf, currentY, 50);
       currentY += 15;
 
       // ========== COMPARAÇÃO ==========
@@ -251,7 +355,7 @@ const BotaoGerarPDF: React.FC<BotaoGerarPDFProps> = ({
       } else {
         pdf.setFontSize(14);
         pdf.setFont("helvetica", "bold");
-        pdf.setTextColor(59, 130, 246);
+        pdf.setTextColor(21, 25, 70); // Azul #151946
         pdf.text("Financiamento mais vantajoso", pageWidth / 2, currentY, {
           align: "center",
         });
@@ -292,11 +396,11 @@ const BotaoGerarPDF: React.FC<BotaoGerarPDFProps> = ({
 
       const vantagens = [
         "Sem juros compostos: apenas taxas administrativas transparentes",
-        "Parcelas fixas durante todo o período",
+        "Parcelas reajustadas a cada 12 meses",
         "Possibilidade de dar lances para antecipar a contemplação",
         "Menor custo total em comparação ao financiamento tradicional",
         "Flexibilidade para usar o crédito quando for contemplado",
-        "Não compromete o limite de financiamento bancário",
+        "Pode ser usado para: Compra de imóvel novo, usado ou na planta",
       ];
 
       vantagens.forEach((vantagem) => {
